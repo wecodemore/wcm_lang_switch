@@ -7,7 +7,7 @@ Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
 Author URI:   http://example.com
 Contributors: Franz Josef Kaiser
-Version:      0.6
+Version:      0.7
 License:      GNU GPL 2
 */
 
@@ -36,9 +36,7 @@ function get_user_locale( $locale = false )
     return $locale;
 }
 
-
-add_filter( 'locale', array( 'UserLangSelect', 'set_locale' ) );
-add_action( 'admin_init', array( 'UserLangSelect', 'init' ) );
+add_action( 'plugins_loaded', array( 'UserLangSelect', 'init' ) );
 
 /**
  * Allows the user to change the systems language.
@@ -120,10 +118,7 @@ class UserLangSelect
 	 */
 	public function __construct()
 	{
-		isset( $_POST[ self :: $name ] ) AND add_action( 'locale', array( $this, 'update_user' ) );
-
-		add_action( 'admin_head', array( $this, 'styles' ) );
-		add_action( 'admin_footer', array( $this, 'scripts' ) );
+		isset( $_REQUEST[ self :: $name ] ) AND add_action( 'locale', array( $this, 'update_user' ) );
 
 		add_filter( 'locale', 'get_user_locale', 20 );
 		add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar') );
@@ -144,7 +139,7 @@ class UserLangSelect
 		update_user_meta(
 			 get_current_user_id()
 			,'user_language'
-			,$_POST[ self :: $name ]
+			,$_REQUEST[ self :: $name ]
 		);
 
 		return $locale;
@@ -152,56 +147,40 @@ class UserLangSelect
 
 
 	/**
-	 * Fix Admin Bar styling
-	 * @since  0.4
-	 * @return void
-	 */
-	public function styles()
-	{
-		?>
-		<style type="text/css">
-			#<?php printf( '#%s_form *', self :: $name ); ?> {
-				text-shadow: none;
-				color: #21759B;
-			}
-		</style>
-		<?php
-	}
-
-
-	/**
-	 * Add an onChange handler, so no one has to click the button
-	 * @since  0.4
-	 * @return void
-	 */
-	public function scripts()
-	{
-		?>
-		<script type="text/javascript">
-			jQuery( document ).ready( function($)
-			{
-				jQuery( '#<?php echo self :: $name.'_select'; ?>' ).on( "change", function()
-				{
-					$( '#<?php echo self :: $name.'_submit'; ?>' ).trigger( 'click' );
-				} );
-			} );
-		</script>
-		<?php
-	}
-
-	/**
-	 * The drop down for the admin bar
+	 * The 'drop down' for the admin bar
+	 * 
+	 * Based on Thomas "toscho" Scholz answer on the following WPSE question by Stephen Harris:
+	 * @link http://wordpress.stackexchange.com/questions/57606/obtain-a-list-of-available-translations/57609
+	 *
 	 * @since  0.1
+	 * @uses get_available_language()
+	 * @uses format_code_lang()
+	 * @wp-hook wp_before_admin_bar_render
+	 * 
 	 * @return void
 	 */
 	public function admin_bar()
 	{
 		global $wp_admin_bar;
 
+		$locale  = get_locale();
+
 		$wp_admin_bar->add_menu( array(
-			 'id'    => self :: $name
-			,'title' => $this->lang_dropdown()
+			 'id'    => 'user_lang_pick'
+			,'title' => $this->format_code_lang($locale)
+			,'href' =>'#'
 		) );
+
+		foreach ( $this->get_langs() as $lang )
+		{
+			$name = $this->format_code_lang($lang);
+			$link = add_query_arg(self :: $name, $lang );
+
+			if( $locale == $lang )
+				$name = sprintf( '<strong> %s </strong>' , $name );
+
+			$wp_admin_bar->add_menu( array( 'parent' => 'user_lang_pick', 'id' => 'user_lang_pick_lang_'.$lang, 'title'=>$name, 'href' => $link ) );
+		}
 	}
 
 
@@ -220,61 +199,35 @@ class UserLangSelect
 
 
 	/**
-	 * Remove the update nag for MS/MU installations, if in a single site setup
-	 * @since  0.3
-	 * @return void
-	 */
-	public function remove_notice()
+	 * Converts language code into 'human readable' form. 
+	 *
+	 * Is an exact copy of the function format_code_lang()
+	 * Including wp-admin/includes/ms.php in non-ms sites displays message prompting user to update network sites, hence we've just duplicated the function.
+	 *
+	 * @since  0.2
+	 * @link http://codex.wordpress.org/Function_Reference/format_code_lang 
+         *
+	 * @param string $code Language code, e.g. en_US or en
+	 * @return string The human readable language name, e.g. 'English'
+	*/
+	public function format_code_lang( $code = '' ) 
 	{
-		remove_action( current_filter(), __FUNCTION__ );
-		remove_action( current_filter(), 'site_admin_notice' );
+		$code = strtolower( substr( $code, 0, 2 ) );
+		$lang_codes = array(
+		'aa' => 'Afar', 'ab' => 'Abkhazian', 'af' => 'Afrikaans', 'ak' => 'Akan', 'sq' => 'Albanian', 'am' => 'Amharic', 'ar' => 'Arabic', 'an' => 'Aragonese', 'hy' => 'Armenian', 'as' => 'Assamese', 'av' => 'Avaric', 'ae' => 'Avestan', 'ay' => 'Aymara', 'az' => 'Azerbaijani', 'ba' => 'Bashkir', 'bm' => 'Bambara', 'eu' => 'Basque', 'be' => 'Belarusian', 'bn' => 'Bengali',
+		'bh' => 'Bihari', 'bi' => 'Bislama', 'bs' => 'Bosnian', 'br' => 'Breton', 'bg' => 'Bulgarian', 'my' => 'Burmese', 'ca' => 'Catalan; Valencian', 'ch' => 'Chamorro', 'ce' => 'Chechen', 'zh' => 'Chinese', 'cu' => 'Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic', 'cv' => 'Chuvash', 'kw' => 'Cornish', 'co' => 'Corsican', 'cr' => 'Cree',
+		'cs' => 'Czech', 'da' => 'Danish', 'dv' => 'Divehi; Dhivehi; Maldivian', 'nl' => 'Dutch; Flemish', 'dz' => 'Dzongkha', 'en' => 'English', 'eo' => 'Esperanto', 'et' => 'Estonian', 'ee' => 'Ewe', 'fo' => 'Faroese', 'fj' => 'Fijjian', 'fi' => 'Finnish', 'fr' => 'French', 'fy' => 'Western Frisian', 'ff' => 'Fulah', 'ka' => 'Georgian', 'de' => 'German', 'gd' => 'Gaelic; Scottish Gaelic',
+		'ga' => 'Irish', 'gl' => 'Galician', 'gv' => 'Manx', 'el' => 'Greek, Modern', 'gn' => 'Guarani', 'gu' => 'Gujarati', 'ht' => 'Haitian; Haitian Creole', 'ha' => 'Hausa', 'he' => 'Hebrew', 'hz' => 'Herero', 'hi' => 'Hindi', 'ho' => 'Hiri Motu', 'hu' => 'Hungarian', 'ig' => 'Igbo', 'is' => 'Icelandic', 'io' => 'Ido', 'ii' => 'Sichuan Yi', 'iu' => 'Inuktitut', 'ie' => 'Interlingue',
+		'ia' => 'Interlingua (International Auxiliary Language Association)', 'id' => 'Indonesian', 'ik' => 'Inupiaq', 'it' => 'Italian', 'jv' => 'Javanese', 'ja' => 'Japanese', 'kl' => 'Kalaallisut; Greenlandic', 'kn' => 'Kannada', 'ks' => 'Kashmiri', 'kr' => 'Kanuri', 'kk' => 'Kazakh', 'km' => 'Central Khmer', 'ki' => 'Kikuyu; Gikuyu', 'rw' => 'Kinyarwanda', 'ky' => 'Kirghiz; Kyrgyz',
+		'kv' => 'Komi', 'kg' => 'Kongo', 'ko' => 'Korean', 'kj' => 'Kuanyama; Kwanyama', 'ku' => 'Kurdish', 'lo' => 'Lao', 'la' => 'Latin', 'lv' => 'Latvian', 'li' => 'Limburgan; Limburger; Limburgish', 'ln' => 'Lingala', 'lt' => 'Lithuanian', 'lb' => 'Luxembourgish; Letzeburgesch', 'lu' => 'Luba-Katanga', 'lg' => 'Ganda', 'mk' => 'Macedonian', 'mh' => 'Marshallese', 'ml' => 'Malayalam',
+		'mi' => 'Maori', 'mr' => 'Marathi', 'ms' => 'Malay', 'mg' => 'Malagasy', 'mt' => 'Maltese', 'mo' => 'Moldavian', 'mn' => 'Mongolian', 'na' => 'Nauru', 'nv' => 'Navajo; Navaho', 'nr' => 'Ndebele, South; South Ndebele', 'nd' => 'Ndebele, North; North Ndebele', 'ng' => 'Ndonga', 'ne' => 'Nepali', 'nn' => 'Norwegian Nynorsk; Nynorsk, Norwegian', 'nb' => 'Bokmål, Norwegian, Norwegian Bokmål',
+		'no' => 'Norwegian', 'ny' => 'Chichewa; Chewa; Nyanja', 'oc' => 'Occitan, Provençal', 'oj' => 'Ojibwa', 'or' => 'Oriya', 'om' => 'Oromo', 'os' => 'Ossetian; Ossetic', 'pa' => 'Panjabi; Punjabi', 'fa' => 'Persian', 'pi' => 'Pali', 'pl' => 'Polish', 'pt' => 'Portuguese', 'ps' => 'Pushto', 'qu' => 'Quechua', 'rm' => 'Romansh', 'ro' => 'Romanian', 'rn' => 'Rundi', 'ru' => 'Russian',
+		'sg' => 'Sango', 'sa' => 'Sanskrit', 'sr' => 'Serbian', 'hr' => 'Croatian', 'si' => 'Sinhala; Sinhalese', 'sk' => 'Slovak', 'sl' => 'Slovenian', 'se' => 'Northern Sami', 'sm' => 'Samoan', 'sn' => 'Shona', 'sd' => 'Sindhi', 'so' => 'Somali', 'st' => 'Sotho, Southern', 'es' => 'Spanish; Castilian', 'sc' => 'Sardinian', 'ss' => 'Swati', 'su' => 'Sundanese', 'sw' => 'Swahili',
+		'sv' => 'Swedish', 'ty' => 'Tahitian', 'ta' => 'Tamil', 'tt' => 'Tatar', 'te' => 'Telugu', 'tg' => 'Tajik', 'tl' => 'Tagalog', 'th' => 'Thai', 'bo' => 'Tibetan', 'ti' => 'Tigrinya', 'to' => 'Tonga (Tonga Islands)', 'tn' => 'Tswana', 'ts' => 'Tsonga', 'tk' => 'Turkmen', 'tr' => 'Turkish', 'tw' => 'Twi', 'ug' => 'Uighur; Uyghur', 'uk' => 'Ukrainian', 'ur' => 'Urdu', 'uz' => 'Uzbek',
+		've' => 'Venda', 'vi' => 'Vietnamese', 'vo' => 'Volapük', 'cy' => 'Welsh','wa' => 'Walloon','wo' => 'Wolof', 'xh' => 'Xhosa', 'yi' => 'Yiddish', 'yo' => 'Yoruba', 'za' => 'Zhuang; Chuang', 'zu' => 'Zulu' );
+		$lang_codes = apply_filters( 'lang_codes', $lang_codes, $code );
+		return strtr( $code, $lang_codes );
 	}
 
-
-	/**
-	 * Generates a list of available locales.
-	 * Searches the wp-content/languages folder for files of the form xx_xx.mo
-	 *
-	 * Based on Thomas "toscho" Scholz answer on the following WPSE question by Stephen Harris:
-	 * @link http://wordpress.stackexchange.com/questions/57606/obtain-a-list-of-available-translations/57609
-	 *
-	 * @since  0.1
-	 * @return string $html
-	 */
-	public function lang_dropdown()
-	{
-		$locale  = get_locale();
-
-		// For the labels (format_code_lang)
-		require_once( ABSPATH.'wp-admin/includes/ms.php' );
-		// Remove the update nag
-		add_action( 'admin_notices', array( $this, 'remove_notice' ), 0 );
-
-		// Build the option elements
-		$elements = '';
-		foreach ( $this->get_langs() as $lang )
-		{
-			$elements .= sprintf (
-				 '<option %s value="%s">%s</option>'
-				,selected( $lang, $locale, false )
-				,$lang
-				,format_code_lang( $lang )
-			);
-		}
-
-		// Build the form
-		return sprintf(
-			 '<form method="post" %s><select %s %s>%s</select>%s</form>'
-			,sprintf( 'id="%s_form"',   self :: $name )
-			,sprintf( 'id="%s_select"', self :: $name )
-			,sprintf( 'name="%s"',      self :: $name )
-			,$elements
-			,get_submit_button(
-				 __( 'Change Language', 'lang_change_textdomain' )
-				,'secondary hidden'
-				,self :: $name.'_submit'
-				,false
-			 )
-		);
-	}
 } // END Class UserLangSelect
+
