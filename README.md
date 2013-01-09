@@ -1,4 +1,4 @@
-wcm_lang_switch
+WCM Language Switcher
 ===============
 
-WordPress plugin to switch language on a per use base
+WordPress plugin that adds a button to the admin toolbar. This buttons allows uses to seamlessly switch languages of the installation.
