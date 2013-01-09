@@ -36,9 +36,7 @@ function get_user_locale( $locale = false )
     return $locale;
 }
 
-
-add_filter( 'locale', array( 'UserLangSelect', 'set_locale' ) );
-add_action( 'admin_init', array( 'UserLangSelect', 'init' ) );
+add_action( 'plugins_loaded', array( 'UserLangSelect', 'init' ) );
 
 /**
  * Allows the user to change the systems language.
@@ -217,3 +215,4 @@ class UserLangSelect
 	}
 
 } // END Class UserLangSelect
+
