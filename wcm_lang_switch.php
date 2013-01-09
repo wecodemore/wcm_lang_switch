@@ -2,10 +2,10 @@
 ! defined( 'ABSPATH' ) AND exit;
 /*
 Plugin Name:  User Language Switcher
-Plugin URI:   http://unserkaiser.com
+Plugin URI:   http://example.com
 Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
-Author URI:   http://unserkaiser.com
+Author URI:   http://example.com
 Contributors: Franz Josef Kaiser
 Version:      0.6
 License:      GNU GPL 2
@@ -37,11 +37,8 @@ function get_user_locale( $locale = false )
 }
 
 
-
-if ( ! class_exists( 'UserLangSelect' ) )
-{
-	add_filter( 'locale', array( 'UserLangSelect', 'set_locale' ) );
-	add_action( 'admin_init', array( 'UserLangSelect', 'init' ) );
+add_filter( 'locale', array( 'UserLangSelect', 'set_locale' ) );
+add_action( 'admin_init', array( 'UserLangSelect', 'init' ) );
 
 /**
  * Allows the user to change the systems language.
@@ -59,7 +56,6 @@ class UserLangSelect
 {
 	/**
 	 * Instance
-	 *
 	 * @access protected
 	 * @var object
 	 */
@@ -68,10 +64,7 @@ class UserLangSelect
 
 	/**
 	 * A unique name for this plug-in
-	 *
 	 * @since  0.1
-	 *
-	 * @access public
 	 * @var    string
 	 */
 	static public $name = 'uls_pick_lang';
@@ -79,7 +72,6 @@ class UserLangSelect
 
 	/**
 	 * Creates a new static instance
-	 *
 	 * @since  0.2
 	 * @static
 	 * @return void
@@ -93,10 +85,10 @@ class UserLangSelect
 
 	/**
 	 * Sets the current user and defines the WPLANG constant
-	 *
 	 * @since  0.4
 	 * @static
-	 * @return void
+	 * @param  string $mofile
+	 * @return string $mofile
 	 */
 	static public function set_locale( $mofile )
 	{
@@ -120,12 +112,11 @@ class UserLangSelect
 		return $mofile;
 	}
 
+
 	/**
 	 * Hook the functions
-	 *
 	 * @since  0.1
-	 *
-	 * @return void
+	 * @return \UserLangSelect
 	 */
 	public function __construct()
 	{
@@ -141,11 +132,9 @@ class UserLangSelect
 
 	/**
 	 * Update the user's option just in time!
-	 *
 	 * @since  0.1
-	 *
-	 * @param  $locale string
-	 * @return $locale string
+	 * @param  string $locale
+	 * @return string $locale
 	 */
 	public function update_user( $locale )
 	{
@@ -164,7 +153,6 @@ class UserLangSelect
 
 	/**
 	 * Fix Admin Bar styling
-	 *
 	 * @since  0.4
 	 * @return void
 	 */
@@ -183,7 +171,6 @@ class UserLangSelect
 
 	/**
 	 * Add an onChange handler, so no one has to click the button
-	 *
 	 * @since  0.4
 	 * @return void
 	 */
@@ -204,7 +191,6 @@ class UserLangSelect
 
 	/**
 	 * The drop down for the admin bar
-	 *
 	 * @since  0.1
 	 * @return void
 	 */
@@ -221,7 +207,6 @@ class UserLangSelect
 
 	/**
 	 * Get Languages
-	 *
 	 * @since  0.3
 	 * @return void
 	 */
@@ -236,7 +221,6 @@ class UserLangSelect
 
 	/**
 	 * Remove the update nag for MS/MU installations, if in a single site setup
-	 *
 	 * @since  0.3
 	 * @return void
 	 */
@@ -294,5 +278,3 @@ class UserLangSelect
 		);
 	}
 } // END Class UserLangSelect
-
-} // endif;
