@@ -22,7 +22,7 @@ License:      GNU GPL 2
  * @param  bool $locale
  * @return mixed string/bool $locale
  */
-function get_user_locale( $locale = false )
+function wcm_get_user_locale( $locale = false )
 {
 	if (
 		$new_locale = get_user_meta(
@@ -120,7 +120,7 @@ class UserLangSelect
 	{
 		isset( $_REQUEST[ self :: $name ] ) AND add_action( 'locale', array( $this, 'update_user' ) );
 
-		add_filter( 'locale', 'get_user_locale', 20 );
+		add_filter( 'locale', 'wcm_get_user_locale', 20 );
 		add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar') );
 	}
 
@@ -141,8 +141,8 @@ class UserLangSelect
 			,'user_language'
 			,$_REQUEST[ self :: $name ]
 		);
-
-		return $locale;
+		
+		return wcm_get_user_locale($locale);
 	}
 
 
@@ -230,4 +230,3 @@ class UserLangSelect
 	}
 
 } // END Class UserLangSelect
-
