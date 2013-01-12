@@ -29,7 +29,7 @@ function wcm_get_user_locale( $locale = false )
 		,'user_language'
 		,true
 	) )
-        return $new_locale;
+		 $new_locale;
 
     return $locale;
 }
