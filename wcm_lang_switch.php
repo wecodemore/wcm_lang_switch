@@ -7,7 +7,7 @@ Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
 Author URI:   http://example.com
 Contributors: Franz Josef Kaiser
-Version:      1.0
+Version:      1.1
 License:      GNU GPL 3
 */
 
@@ -223,12 +223,15 @@ class UserLangSelect
 	public function format_code_lang( $code = '' )
 	{
 		static $result = '';
+		static $json_data = '';
 		if ( ! empty( $result ) )
 			return $result;
 
-		$code = strtolower( substr( $code, 0, 2 ) );
-		$lang_codes = file( plugin_dir_path( __FILE__ ).'/lang_codes.min.json' );
-		$lang_codes = json_decode( array_shift( $lang_codes ), true );
+		$code = strtok( strtolower( $code ), "_" );
+		if ( empty( $json_data ) )
+			$json_data = file( plugin_dir_path( __FILE__ ).'/lang_codes.min.json' );
+
+		$lang_codes = json_decode( array_shift( $json_data ), true );
 		if ( 0 !== json_last_error() )
 			return $code;
 
