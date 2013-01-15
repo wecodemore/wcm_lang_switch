@@ -3,7 +3,7 @@ WCM Language Switcher
 
 ## Authors
 
-WeCodeMore (WCM) is your label for high quality WordPress code from renown authors.
+WeCodeMore (WCM) is your label for high quality WordPress code from renowned authors.
 
 If you want to get updates, just follow us on…
 
