@@ -2,12 +2,12 @@
 ! defined( 'ABSPATH' ) AND exit;
 /*
 Plugin Name:  User Language Switcher
-Plugin URI:   http://example.com
+Plugin URI:   https://github.com/wecodemore/wcm_lang_switch
 Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
-Author URI:   http://example.com
+Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
 Contributors: Franz Josef Kaiser
-Version:      1.2
+Version:      1.3
 License:      GNU GPL 3
 */
 
@@ -34,7 +34,7 @@ function wcm_get_user_locale( $locale = false )
     return $locale;
 }
 
-add_action( 'plugins_loaded', array( 'UserLangSelect', 'init' ) );
+add_action( 'plugins_loaded', array( 'WCMUserLangSelect', 'init' ) );
 
 /**
  * Allows the user to change the systems language.
@@ -42,16 +42,17 @@ add_action( 'plugins_loaded', array( 'UserLangSelect', 'init' ) );
  *
  * @since      0.1
  *
- * @author     Stephen Harris
- * @link       http://wordpress.stackexchange.com/questions/35622/change-language-by-clicking-a-button/57503
+ * @author     Stephen Harris, Franz Josef Kaiser
+ * @link       https://github.com/wecodemore/wcm_lang_switch
  *
  * @package    WordPress
  * @subpackage User Language Change
  */
-class UserLangSelect
+class WCMUserLangSelect
 {
 	/**
 	 * Instance
+	 * @static
 	 * @access protected
 	 * @var object
 	 */
@@ -61,9 +62,26 @@ class UserLangSelect
 	/**
 	 * A unique name for this plug-in
 	 * @since  0.1
+	 * @static
 	 * @var    string
 	 */
 	static public $name = 'uls_pick_lang';
+
+	/**
+	 * Content of the JSON file
+	 * @since  1.3
+	 * @static
+	 * @var    string
+	 */
+	static public $json_data;
+
+
+	/**
+	 * @internal Enable Dev Tools?
+	 * @since 1.3
+	 * @var   bool
+	 */
+	public $dev = true;
 
 
 	/**
@@ -112,7 +130,7 @@ class UserLangSelect
 	/**
 	 * Hook the functions
 	 * @since  0.1
-	 * @return \UserLangSelect
+	 * @return \WCMUserLangSelect
 	 */
 	public function __construct()
 	{
@@ -121,6 +139,8 @@ class UserLangSelect
 
 		add_filter( 'locale', 'wcm_get_user_locale', 20 );
 		add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar') );
+
+		$this->dev AND add_action( 'wp_dashboard_setup', array( $this, 'dev_tools' ), 99 );
 	}
 
 
@@ -225,15 +245,27 @@ class UserLangSelect
 		static $json_data = '';
 
 		$code = strtok( strtolower( $code ), "_" );
-		if ( empty( $json_data ) )
-			$json_data = file( plugin_dir_path( __FILE__ ).'/lang_codes.min.json' );
+		if ( is_null( self :: $json_data ) )
+			self :: $json_data = reset( file( plugin_dir_path( __FILE__ ).'/lang_codes.min.json' ) );
 
-		$lang_codes = json_decode( reset( $json_data ), true );
+		$lang_codes = json_decode( self :: $json_data, true );
 		if ( 0 !== json_last_error() )
 			return $code;
 
 		$lang_codes = apply_filters( 'lang_codes', $lang_codes, $code );
 		empty( $result ) AND $result = $lang_codes[ $code ];
 		return $result;
+	}
+
+	public function dev_tools()
+	{
+		if (
+			! is_admin()
+			OR ! current_user_can( 'manage_options' )
+		)
+			return;
+
+		include_once plugin_dir_path( __FILE__ ).'/dev_tools.class.php';
+		new WCMUserLangSelectDevTools();
 	}
 }
