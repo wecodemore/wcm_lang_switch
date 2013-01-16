@@ -7,7 +7,7 @@ Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
 Author URI:   http://example.com
 Contributors: Franz Josef Kaiser
-Version:      1.1
+Version:      1.3
 License:      GNU GPL 3
 */
 
