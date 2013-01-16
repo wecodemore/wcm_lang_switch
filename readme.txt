@@ -2,7 +2,7 @@
 Contributors: stephenh1988, F J Kaiser
 Tags: Language, switcher, localisation
 Tested up to: 3.5
-Stable tag: 1.0
+Stable tag: 1.2
 
 Adds a button to the admin toolbar. This buttons allows users to seamlessly switch between available languages.
 
