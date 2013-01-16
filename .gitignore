@@ -18,3 +18,7 @@ Desktop.ini
 .buildpath
 .project
 .settings
+
+# PSD
+.psd/*
+.psd

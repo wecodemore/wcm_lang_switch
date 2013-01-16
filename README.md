@@ -12,7 +12,7 @@ If you want to get updates, just follow us on…
 
 ## Descriptions
 
-WordPress plugin that adds a button to the admin toolbar. This buttons allows uses to seamlessly switch languages of the installation.
+WCM Language Switcher adds a button to the admin toolbar that allows users to seamlessly switch between available languages.
 
 ## Extending the plugin
 
