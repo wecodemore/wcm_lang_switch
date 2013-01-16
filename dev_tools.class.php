@@ -54,7 +54,7 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 			return;
 
 		$response = wp_remote_retrieve_body( $response );
-		// Check (and in case remove) for UTF-8 *with* BOM
+		// Check (and in case remove) BOM for UTF-8
 		// props <Gerjoo@gmail.com> @php.net
 		if ( substr( $response, 0, 3 ) == pack( 'CCC', 239, 187, 191 ) )
 			$response = substr( $response, 3 );
@@ -95,7 +95,7 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 				// Search in international list for a lang ISO code
 				$nn = array_search( $string, $native_int );
 				// If we found one, assign it to the array, else empty
-				$nn = ! $nn ? '' : $native[ $nn ]['nativeName'];
+				$nn = ! $nn ? $string : ucwords( $native[ $nn ]['nativeName'] );
 				$output[ $l ] = array(
 					 'int'    => $string
 					,'native' => $nn
