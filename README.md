@@ -3,6 +3,9 @@
 **Tags:** Language, switcher, localisation
 **Tested up to:** 3.5
 **Stable tag:** 1.3
+**Requires at least:** 3.5
+**License:** GPL3
+**License URI:** http://www.gnu.org/licenses/gpl-3.0.html
 
 Adds a button to the admin toolbar. This buttons allows users to seamlessly switch between available languages.
 
@@ -52,6 +55,11 @@ If you want to extend the list of available languages, then please use the provi
 
 
 ## Changelog ##
+
+### 1.4 ###
+
+* Added remote location to fetch a complete list of ISO 639-x strings from.
+* Added a parser to the dev tools.
 
 ### 1.3 ###
 
