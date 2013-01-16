@@ -66,6 +66,7 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		// Reindex array
 		$response = array_merge( $response );
 
+		// Sum under lang ISO code
 		$n = 0;
 		for ( $i = 0; $i < count( $response ); $i++ )
 		{
@@ -73,18 +74,50 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 			$result[ $n ][] = $response[ $i ];
 		}
 
+		// Fetch native translation from local file...
+		$native = file( plugin_dir_path( __FILE__ ).'/lang_native.json' );
+		// ...convert to array
+		$native = json_decode( implode( "", $native ), true );
+		// Reduce (to speed up search task)ative[ $code ]['nativeName'];
+		$native_int = wp_list_pluck( $native, 'name' );
+
 		foreach ( $result as $lang )
 		{
 			static $string = '';
 			$string !== end( $lang ) AND $string = end( $lang );
+			// Remove empty parts
 			$lang = array_filter( $lang );
+			// Remove full name
 			unset( $lang[3] );
+			// Build final output array
 			foreach ( $lang as $l )
-				$output[ $l ] = $string;
+			{
+				// Search in international list for a lang ISO code
+				$nn = array_search( $string, $native_int );
+				// If we found one, assign it to the array, else empty
+				$nn = ! $nn ? '' : $native[ $nn ]['nativeName'];
+				$output[ $l ] = array(
+					 'int'    => $string
+					,'native' => $nn
+				);
+			}
 		}
 
-		! empty( $output ) AND printf(
+		if ( empty( $output ) )
+			return;
+
+		printf ( '<p>%s</p>', 'Readable' );
+		printf(
 			'<textarea rows="5" cols="104">%s</textarea>'
+			,str_replace(
+				 array( "{", "}", "," )
+				,array( "{\n\t", "\n}", "\n\t" )
+				,json_encode( $output )
+			)
+		);
+		printf ( '<p>%s</p>', 'Compressed' );
+		printf(
+			 '<textarea rows="5" cols="104">%s</textarea>'
 			,json_encode( $output )
 		);
 	}

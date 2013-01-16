@@ -54,6 +54,11 @@ If you want to extend the list of available languages, then please use the provi
 
 == Changelog ==
 
+= 1.5 =
+
+* Added local/native JSON strings data file.
+* Extended the dev tools parser to include the native data for the JSON files that are used for the UI.
+
 = 1.4 =
 
 * Added remote location to fetch a complete list of ISO 639-x strings from.
