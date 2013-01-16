@@ -2,7 +2,7 @@
 Contributors: stephenh1988, F J Kaiser
 Tags: Language, switcher, localisation
 Tested up to: 3.5
-Stable tag: 1.2
+Stable tag: 1.3
 
 Adds a button to the admin toolbar. This buttons allows users to seamlessly switch between available languages.
 
@@ -50,6 +50,14 @@ If you want to extend the list of available languages, then please use the provi
 1. The plugin in action in the admin bar.
 
 == Changelog ==
+
+= 1.3 =
+
+* Added dev tools
+
+= 1.2 =
+
+* Bug fix: Now has right language string.
 
 = 1.1 =
 
