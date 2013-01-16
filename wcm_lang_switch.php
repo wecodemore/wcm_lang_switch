@@ -222,10 +222,7 @@ class UserLangSelect
 	*/
 	public function format_code_lang( $code = '' )
 	{
-		static $result = '';
 		static $json_data = '';
-		if ( ! empty( $result ) )
-			return $result;
 
 		$code = strtok( strtolower( $code ), "_" );
 		if ( empty( $json_data ) )
