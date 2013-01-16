@@ -68,12 +68,12 @@ class WCMUserLangSelect
 	static public $name = 'uls_pick_lang';
 
 	/**
-	 * Content of the JSON file
+	 * Array of language names (in English & native language), indexed by language code
 	 * @since  1.3
 	 * @static
 	 * @var    string
 	 */
-	static public $json_data;
+	static public $lang_codes;
 
 
 	/**
@@ -242,19 +242,23 @@ class WCMUserLangSelect
 	*/
 	public function format_code_lang( $code = '' )
 	{
-		static $json_data = '';
 
-		$code = strtok( strtolower( $code ), "_" );
-		if ( is_null( self :: $json_data ) )
-			self :: $json_data = reset( file( plugin_dir_path( __FILE__ ).'/lang_codes.min.json' ) );
+		$_code = strtok( strtolower( $code ), "_" );
+		if ( is_null( self :: $lang_codes ) )
+			self :: $lang_codes =  json_decode( reset( file( plugin_dir_path( __FILE__ ).'/lang_codes.min.json' ) ), true );
 
-		$lang_codes = json_decode( self :: $json_data, true );
 		if ( 0 !== json_last_error() )
 			return $code;
 
-		$lang_codes = apply_filters( 'lang_codes', $lang_codes, $code );
-		empty( $result ) AND $result = $lang_codes[ $code ];
-		return $result;
+		$lang_codes = apply_filters( 'lang_codes', self :: $lang_codes, $code );
+		$user_locale = wcm_get_user_locale( 'en_US' );
+
+		if ( ! isset( $lang_codes[ $_code ] ) ) 
+			return $code;
+		if( $user_locale == $code )
+			return $lang_codes[ $_code ][ 'native' ];
+		else 
+			return $lang_codes[ $_code ][ 'int' ];
 	}
 
 	public function dev_tools()
