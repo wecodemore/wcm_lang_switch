@@ -228,7 +228,7 @@ class UserLangSelect
 		if ( empty( $json_data ) )
 			$json_data = file( plugin_dir_path( __FILE__ ).'/lang_codes.min.json' );
 
-		$lang_codes = json_decode( array_shift( $json_data ), true );
+		$lang_codes = json_decode( reset( $json_data ), true );
 		if ( 0 !== json_last_error() )
 			return $code;
 
