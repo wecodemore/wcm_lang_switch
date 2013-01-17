@@ -1,6 +1,6 @@
 # WCM User Language Switcher #
 
-<img width="150" height="150" src="https://raw.github.com/wecodemore/wcm_lang_switch/master/logo.png" style="float: left;">
+<img width="150" height="150" src="https://raw.github.com/wecodemore/wcm_lang_switch/master/assets/logo.png" style="float: left;">
 
 **Contributors:** stephenh1988, F J Kaiser
 **Tags:** Language, switcher, localisation
