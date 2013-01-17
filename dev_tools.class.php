@@ -78,7 +78,7 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		$native = file( plugin_dir_path( __FILE__ ).'/lang_native.json' );
 		// ...convert to array
 		$native = json_decode( implode( "", $native ), true );
-		// Reduce (to speed up search task)ative[ $code ]['nativeName'];
+		// Reduce (to speed up search task)
 		$native_int = wp_list_pluck( $native, 'name' );
 
 		foreach ( $result as $lang )
@@ -106,19 +106,38 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		if ( empty( $output ) )
 			return;
 
+		# Test if native strings work
+		# foreach ( $output as $k => $v )
+		# 	printf ( "<p>%s</p>", $v['native'] );
+
+		$output = json_encode( $output );
+		$output_raw = str_replace(
+			 array( "{", ":{", "\":\"", "\"int\"", "\"native\"", "},\"", "}" )
+			,array( "{\n\t", ":\n\t{", "\": \"", "\t\"int\"", "\n\t\t\"native\"", "},\n\t\"", "\n\t}" )
+			,$output
+		);
 		printf ( '<p>%s</p>', 'Readable' );
 		printf(
 			'<textarea rows="5" cols="104">%s</textarea>'
-			,str_replace(
-				 array( "{", "}", "," )
-				,array( "{\n\t", "\n}", "\n\t" )
-				,json_encode( $output )
-			)
+			,$output_raw
 		);
 		printf ( '<p>%s</p>', 'Compressed' );
 		printf(
 			 '<textarea rows="5" cols="104">%s</textarea>'
-			,json_encode( $output )
+			,$output
+		);
+
+		return;
+		# Remove the above `return;` to get a DIFF of the changes
+		$output_current = file_get_contents( plugin_dir_path( __FILE__ ).'/lang_codes.json' );
+		print wp_text_diff(
+			 var_export( $output_current, true )
+			,var_export( $output_raw, true )
+			,array(
+				 'title'       => 'Dev: Changes since last JSON file fetch'
+				,'title_left'  => 'Current data'
+				,'title_right' => 'New fetched data'
+			)
 		);
 	}
 }
