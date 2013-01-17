@@ -75,7 +75,7 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		}
 
 		// Fetch native translation from local file...
-		$native = file( plugin_dir_path( __FILE__ ).'/lang_native.json' );
+		$native = file( plugin_dir_path( __FILE__ ).'/json/lang_native.json' );
 		// ...convert to array
 		$native = json_decode( implode( "", $native ), true );
 		// Reduce (to speed up search task)
@@ -129,7 +129,7 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 
 		return;
 		# Remove the above `return;` to get a DIFF of the changes
-		$output_current = file_get_contents( plugin_dir_path( __FILE__ ).'/lang_codes.json' );
+		$output_current = file_get_contents( plugin_dir_path( __FILE__ ).'/json/lang_codes.json' );
 		print wp_text_diff(
 			 var_export( $output_current, true )
 			,var_export( $output_raw, true )
