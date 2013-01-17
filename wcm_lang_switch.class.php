@@ -243,7 +243,7 @@ class WCMUserLangSelect
 	public function format_code_lang( $code = '' )
 	{
 
-		$_code = strtok( strtolower( $code ), "_" );
+		$label_code = strtok( strtolower( $code ), "_" );
 		if ( is_null( self :: $lang_codes ) )
 			self :: $lang_codes =  json_decode( reset( file( plugin_dir_path( __FILE__ ).'/lang_codes.min.json' ) ), true );
 
@@ -253,12 +253,12 @@ class WCMUserLangSelect
 		$lang_codes = apply_filters( 'lang_codes', self :: $lang_codes, $code );
 		$user_locale = wcm_get_user_locale( 'en_US' );
 
-		if ( ! isset( $lang_codes[ $_code ] ) ) 
+		if ( ! isset( $lang_codes[ $label_code ] ) ) 
 			return $code;
 		if( $user_locale == $code )
-			return $lang_codes[ $_code ][ 'native' ];
+			return $lang_codes[ $label_code ][ 'native' ];
 		else 
-			return $lang_codes[ $_code ][ 'int' ];
+			return $lang_codes[ $label_code ][ 'int' ];
 	}
 
 	public function dev_tools()
