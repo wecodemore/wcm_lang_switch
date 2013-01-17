@@ -78,7 +78,7 @@ If you want to extend the list of available languages, then please use the provi
 
 ### 1.2 ###
 
-*** Bug fix:** Now has right language string.
+* Bug fix: Now has right language string.
 
 ### 1.1 ###
 
