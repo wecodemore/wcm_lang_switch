@@ -36,7 +36,7 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 	{
 		printf(
 			 '<textarea rows="5" cols="104">%s</textarea>'
-			,self :: $json_data
+			,json_encode( self :: $lang_codes )
 		);
 	}
 
