@@ -1,4 +1,7 @@
 # WCM User Language Switcher #
+
+<img width="150" height="150" src="https://raw.github.com/wecodemore/wcm_lang_switch/master/logo.png" style="float: left;">
+
 **Contributors:** stephenh1988, F J Kaiser
 **Tags:** Language, switcher, localisation
 **Tested up to:** 3.5
@@ -36,7 +39,7 @@ If you want to extend the list of available languages, then please use the provi
 
 <pre>
     <?php
-**    /* Plugin Name:** (WCM) Add additional languages */
+    /* Plugin Name:** (WCM) Add additional languages */
     add_filter( 'uls_get_langs', 'wcm_add_languages' );
     function wcm_add_languages( $languages )
     {
@@ -51,7 +54,8 @@ If you want to extend the list of available languages, then please use the provi
 ## Screenshots ##
 
 ###1. The plugin in action in the admin bar.###
-![The plugin in action in the admin bar.](http://s.wordpress.org/extend/plugins/wcm-user-language-switcher/screenshot-1.png)
+
+[The plugin in action in the admin bar.](https://raw.github.com/wecodemore/wcm_lang_switch/master/screenshot-1.png)
 
 
 ## Changelog ##
