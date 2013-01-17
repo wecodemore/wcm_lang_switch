@@ -61,6 +61,7 @@ If you want to extend the list of available languages, then please use the provi
 
 * Dev Tools extended and running stable. Now updating from the remote source works perfectly.
 * Better file organisation. Moved JSON files to separate folder.
+* Fixed (due to refactoring) broken JSON compress dev tools.
 
 ### 1.5 ###
 
