@@ -2,7 +2,7 @@
 
 <img width="150" height="150" src="https://raw.github.com/wecodemore/wcm_lang_switch/master/assets/logo.png" />
 
-**Contributors:** stephenh1988, F J Kaiser
+**Contributors:** [Stephen Harris](https://github.com/stephenh1988), [Franz Josef Kaiser](https://github.com/franz-josef-kaiser)
 **Tags:** Language, switcher, localisation
 **Tested up to:** 3.5
 **Stable tag:** 1.6
