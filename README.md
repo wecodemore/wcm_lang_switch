@@ -37,7 +37,6 @@ This plug-in was originally built as a means of plug-in and theme developers to 
 
 If you want to extend the list of available languages, then please use the provided filter. Here's an example (mu)plugin:
 
-<pre>
     <?php
     /* Plugin Name:** (WCM) Add additional languages */
     add_filter( 'uls_get_langs', 'wcm_add_languages' );
@@ -49,16 +48,12 @@ If you want to extend the list of available languages, then please use the provi
     		,'ja'    // Japanese
     	) );
     }
-</pre>
 
 ## Screenshots ##
 
-###1. The plugin in action in the admin bar.###
+### The plugin in action in the admin bar. ###
 
 <img src="https://raw.github.com/wecodemore/wcm_lang_switch/master/screenshot-1.png" alt="The plugin in action in the admin bar." />
-
-<br />
-<sup>The plugin in action in the admin bar.</sup>
 
 ## Changelog ##
 
