@@ -45,26 +45,8 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 	 */
 	public function fetch_json()
 	{
-		$response = wp_remote_request( 'http://loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt' );
-		if (
-			is_wp_error( $response )
-			OR 'OK' !== wp_remote_retrieve_response_message( $response )
-			OR 200 !== wp_remote_retrieve_response_code( $response )
-		)
+		if( ! $response = $this->fetch_remote_json() )
 			return;
-
-		$response = wp_remote_retrieve_body( $response );
-		// Check (and in case remove) BOM for UTF-8
-		// props <Gerjoo@gmail.com> @php.net
-		if ( substr( $response, 0, 3 ) == pack( 'CCC', 239, 187, 191 ) )
-			$response = substr( $response, 3 );
-		// Build array
-		$response = explode( "|", str_replace( "\n", "|", $response ) );
-		// Get rid of french(/every 5th) strings
-		foreach ( range( 4, count( $response ), 5 ) as $key )
-			unset( $response[ $key ] );
-		// Reindex array
-		$response = array_merge( $response );
 
 		// Sum under lang ISO code
 		$n = 0;
@@ -78,6 +60,7 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		$native = file( plugin_dir_path( __FILE__ ).'/json/lang_native.json' );
 		// ...convert to array
 		$native = json_decode( implode( "", $native ), true );
+
 		// Reduce (to speed up search task)
 		$native_int = wp_list_pluck( $native, 'name' );
 
@@ -111,11 +94,8 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		# 	printf ( "<p>%s</p>", $v['native'] );
 
 		$output = json_encode( $output );
-		$output_raw = str_replace(
-			 array( "{", ":{", "\":\"", "\"int\"", "\"native\"", "},\"", "}" )
-			,array( "{\n\t", ":\n\t{", "\": \"", "\t\"int\"", "\n\t\t\"native\"", "},\n\t\"", "\n\t}" )
-			,$output
-		);
+		$output_raw = $this->beautify_json( $output );
+
 		printf ( '<p>%s</p>', 'Readable' );
 		printf(
 			'<textarea rows="5" cols="104">%s</textarea>'
@@ -129,10 +109,27 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 
 		return;
 		# Remove the above `return;` to get a DIFF of the changes
+		$this->diff_json( $output_raw );
+	}
+
+	/**
+	 *
+	 */
+	public function beautify_json( $json )
+	{
+		return str_replace(
+			 array( "{", ":{", "\":\"", "\"int\"", "\"native\"", "},\"", "}" )
+			,array( "{\n\t", ":\n\t{", "\": \"", "\t\"int\"", "\n\t\t\"native\"", "},\n\t\"", "\n\t}" )
+			,$json
+		);
+	}
+
+	public function diff_json( $output_remote )
+	{
 		$output_current = file_get_contents( plugin_dir_path( __FILE__ ).'/json/lang_codes.json' );
 		print wp_text_diff(
 			 var_export( $output_current, true )
-			,var_export( $output_raw, true )
+			,var_export( $output_remote, true )
 			,array(
 				 'title'       => 'Dev: Changes since last JSON file fetch'
 				,'title_left'  => 'Current data'
@@ -140,4 +137,31 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 			)
 		);
 	}
+
+	public function fetch_remote_json(){
+
+		$response = wp_remote_request( 'http://loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt' );
+		if (
+			is_wp_error( $response )
+			OR 'OK' !== wp_remote_retrieve_response_message( $response )
+			OR 200 !== wp_remote_retrieve_response_code( $response )
+		)
+			return false;
+
+		$response = wp_remote_retrieve_body( $response );
+		// Check (and in case remove) BOM for UTF-8
+		// props <Gerjoo@gmail.com> @php.net
+		if ( substr( $response, 0, 3 ) == pack( 'CCC', 239, 187, 191 ) )
+			$response = substr( $response, 3 );
+		// Build array
+		$response = explode( "|", str_replace( "\n", "|", $response ) );
+		// Get rid of french(/every 5th) strings
+		foreach ( range( 4, count( $response ), 5 ) as $key )
+			unset( $response[ $key ] );
+		// Reindex array
+		$response = array_merge( $response );
+
+		return $response;
+	}
+
 }
