@@ -1,6 +1,6 @@
 # WCM User Language Switcher #
 
-<img width="150" height="150" src="https://raw.github.com/wecodemore/wcm_lang_switch/master/assets/logo.png" style="float: left;">
+<img width="150" height="150" src="https://raw.github.com/wecodemore/wcm_lang_switch/master/assets/logo.png" style="max-width:100%;float: left;">
 
 **Contributors:** stephenh1988, F J Kaiser
 **Tags:** Language, switcher, localisation
@@ -11,6 +11,8 @@
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html
 
 Adds a button to the admin toolbar. This buttons allows users to seamlessly switch between available languages.
+
+<br />
 
 ## Description ##
 
