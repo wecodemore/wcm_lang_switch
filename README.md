@@ -51,9 +51,9 @@ If you want to extend the list of available languages, then please use the provi
 
 ## Screenshots ##
 
-### The plugin in action in the admin bar. ###
-
 <img src="https://raw.github.com/wecodemore/wcm_lang_switch/master/screenshot-1.png" alt="The plugin in action in the admin bar." />
+<br />
+<sup>The plugin in action in the admin bar.</sup>
 
 ## Changelog ##
 
