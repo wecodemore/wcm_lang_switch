@@ -12,7 +12,6 @@ License:      GNU GPL 3
 */
 
 
-
 # PUBLIC API #
 /**
  * A function returns with returns the user's selected locale, if stored.

@@ -9,9 +9,6 @@ defined( 'ABSPATH' ) OR exit;
  */
 class WCMUserLangSelectDevTools extends WCMUserLangSelect
 {
-	/**
-	 *
-	 */
 	public function __construct()
 	{
 		if (
@@ -29,9 +26,6 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		);
 	}
 
-	/**
-	 *
-	 */
 	public function compress_json()
 	{
 		printf(
@@ -40,12 +34,9 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		);
 	}
 
-	/**
-	 *
-	 */
 	public function fetch_json()
 	{
-		if( ! $response = $this->fetch_remote_json() )
+		if ( ! $response = $this->fetch_remote_json() )
 			return;
 
 		// Sum under lang ISO code
@@ -91,7 +82,7 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 
 		# Test if native strings work
 		# foreach ( $output as $k => $v )
-		# 	printf ( "<p>%s</p>", $v['native'] );
+		#	printf ( "<p>%s</p>", $v['native'] );
 
 		$output = json_encode( $output );
 		$output_raw = $this->beautify_json( $output );
@@ -112,9 +103,6 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		$this->diff_json( $output_raw );
 	}
 
-	/**
-	 *
-	 */
 	public function beautify_json( $json )
 	{
 		return str_replace(
@@ -124,22 +112,8 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		);
 	}
 
-	public function diff_json( $output_remote )
+	public function fetch_remote_json()
 	{
-		$output_current = file_get_contents( plugin_dir_path( __FILE__ ).'/json/lang_codes.json' );
-		print wp_text_diff(
-			 var_export( $output_current, true )
-			,var_export( $output_remote, true )
-			,array(
-				 'title'       => 'Dev: Changes since last JSON file fetch'
-				,'title_left'  => 'Current data'
-				,'title_right' => 'New fetched data'
-			)
-		);
-	}
-
-	public function fetch_remote_json(){
-
 		$response = wp_remote_request( 'http://loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt' );
 		if (
 			is_wp_error( $response )
@@ -164,4 +138,17 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		return $response;
 	}
 
+	public function diff_json( $output_remote )
+	{
+		$output_current = file_get_contents( plugin_dir_path( __FILE__ ).'/json/lang_codes.json' );
+		print wp_text_diff(
+			var_export( $output_current, true )
+			,var_export( $output_remote, true )
+			,array(
+				'title'       => 'Dev: Changes since last JSON file fetch'
+			,'title_left'  => 'Current data'
+			,'title_right' => 'New fetched data'
+			)
+		);
+	}
 }
