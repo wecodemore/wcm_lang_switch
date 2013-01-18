@@ -1,5 +1,5 @@
 === WCM User Language Switcher ===
-Contributors: stephenh1988, F J Kaiser
+Contributors: stephenharris, F J Kaiser
 Tags: Language, switcher, localisation
 Tested up to: 3.5
 Stable tag: 1.6
