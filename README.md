@@ -27,7 +27,7 @@ If you want to get updates, just follow us on…
 
 Extract the zip file and just drop the contents in the `~/wp-content/plugins/` directory of your WordPress installation and then activate the Plugin from Plugins page.
 
-It scans the language directory to build the list of available languages. To add a language, simple [download the appropriate mo file](http://codex.wordpress.org/WordPress_in_Your_Language) and add to your WordPress `languages` folder.
+	It scans the language directory to build the list of available languages. To add a language, simple [download the appropriate mo file](http://codex.wordpress.org/WordPress_in_Your_Language) and add to your WordPress `languages` folder.
 
 This plugin was originally built as a means of plugin and theme developers to test translations of their plugins or themes.
 
