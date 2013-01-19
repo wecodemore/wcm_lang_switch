@@ -19,6 +19,6 @@ Desktop.ini
 .project
 .settings
 
-# PSD
-.psd/*
-.psd
+# PSD/AI
+assets/*
+.assets
