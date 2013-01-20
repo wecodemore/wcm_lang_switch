@@ -70,9 +70,54 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 				$nn = array_search( $string, $native_int );
 				// If we found one, assign it to the array, else empty
 				$nn = ! $nn ? $string : ucwords( $native[ $nn ]['nativeName'] );
+				// Build an array and get rid of white space
+				// The used delimiters are: "," & ";"
+				$int = array_map( 'trim', explode( ";", $string ) );
+				foreach( $int as $int_string )
+				{
+					strstr( $int_string, "," ) AND $int = array_map( 'trim', explode( ",", $int_string ) );
+				}
+				$nat = array_map( 'trim', explode( ";", $nn ) );
+				foreach( $nat as $nat_string )
+				{
+					strstr( $nat_string, "," ) AND $nat = array_map( 'trim', explode( ",", $nat_string ) );
+				}
+				// Fixing the cases where the second string has round brackets
+				// This means that it's an ancient language and got a date attached
+				foreach ( $int as $key => $int_string )
+				{
+					if ( strstr( $int_string, "(" ) )
+					{
+						if (
+							0 !== $key
+							AND ! strstr( $int[0], "(" )
+							)
+						{
+							$int[0] = "{$int[0]} {$int_string}";
+							unset( $int[ $key ] );
+						}
+					}
+				}
+				foreach ( $nat as $key => $nat_string )
+				{
+					if ( strstr( $nat_string, "(" ) )
+					{
+						if (
+							0 !== $key
+							AND ! strstr( $nat[0], "(" )
+							)
+						{
+							$nat[0] = "{$nat[0]} {$nat_string}";
+							unset( $nat[ $key ] );
+						}
+					}
+				}
+				sort( $int );
+				sort( $nat );
+				// Assign to output array and Uppercase letters for first chars
 				$output[ $l ] = array(
-					 'int'    => $string
-					,'native' => $nn
+					 'int'    => array_map( 'ucwords', $int )
+					,'native' => array_map( 'ucwords', $nat )
 				);
 			}
 		}
@@ -80,9 +125,18 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 		if ( empty( $output ) )
 			return;
 
-		# Test if native strings work
-		# foreach ( $output as $k => $v )
-		#	printf ( "<p>%s</p>", $v['native'] );
+		# Output for a complete ISO 639-2 list
+		/* printf(
+			'<textarea rows="5" cols="104">%s</textarea>'
+			,json_encode( $output )
+		);*/
+
+		// Only use the first string for WP UI
+		foreach ( $output as $code => $out )
+			foreach ( $out as $k => $o )
+			{
+				$output[ $code ][ $k ] = array_shift( $o );
+			}
 
 		$output = json_encode( $output );
 		$output_raw = $this->beautify_json( $output );
@@ -142,12 +196,12 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 	{
 		$output_current = file_get_contents( plugin_dir_path( __FILE__ ).'/json/lang_codes.json' );
 		print wp_text_diff(
-			var_export( $output_current, true )
+			 var_export( $output_current, true )
 			,var_export( $output_remote, true )
 			,array(
-				'title'       => 'Dev: Changes since last JSON file fetch'
-			,'title_left'  => 'Current data'
-			,'title_right' => 'New fetched data'
+				 'title'       => 'Dev: Changes since last JSON file fetch'
+				,'title_left'  => 'Current data'
+				,'title_right' => 'New fetched data'
 			)
 		);
 	}
