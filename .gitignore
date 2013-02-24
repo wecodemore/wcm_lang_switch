@@ -2,6 +2,9 @@
 .DSSTORE
 .gitignore
 
+# Dunno wat dis is
+actual
+
 # SVN
 .svn/*
 .svn
