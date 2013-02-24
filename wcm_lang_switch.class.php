@@ -7,7 +7,7 @@ Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
 Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
 Contributors: Franz Josef Kaiser
-Version:      1.6.2
+Version:      1.6.4
 License:      GNU GPL 3
 */
 
@@ -33,8 +33,7 @@ function wcm_get_user_locale( $locale = false )
     return $locale;
 }
 
-add_action( 'plugins_loaded', array( 'WCMUserLangSelect', 'init' ) );
-
+add_action( 'plugins_loaded', array( 'WCMUserLangSelect', 'init' ), 5 );
 /**
  * Allows the user to change the systems language.
  * Saves the preference as user meta data.
@@ -167,8 +166,8 @@ class WCMUserLangSelect
 	/**
 	 * The 'drop down' for the admin bar
 	 *
-	 * Based on Thomas "toscho" Scholz answer on the following WPSE question by Stephen Harris:
-	 * @link http://wordpress.stackexchange.com/questions/57606/obtain-a-list-of-available-translations/57609
+	 * Based on Thomas "toscho" Scholz answer on the following WP.SE question by Stephen Harris:
+	 * @link http://goo.gl/6oqug
 	 *
 	 * @since   0.1
 	 * @uses    get_available_language()
