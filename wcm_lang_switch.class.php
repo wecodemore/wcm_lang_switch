@@ -285,6 +285,6 @@ class WCM_User_Lang_Switch
 			return;
 
 		include_once plugin_dir_path( __FILE__ ).'/dev_tools.class.php';
-		new WCMUserLangSelectDevTools();
+		new WCM_User_Lang_Switch_DevTools();
 	}
 }

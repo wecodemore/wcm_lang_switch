@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) OR exit;
  * @author     Franz Josef Kaiser, Stephen Harris
  * @since      1.3
  */
-class WCMUserLangSelectDevTools extends WCMUserLangSelect
+class WCM_User_Lang_Switch_DevTools extends WCM_User_Lang_Switch
 {
 	public function __construct()
 	{
@@ -73,17 +73,25 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 				// Build an array and get rid of white space
 				// The used delimiters are: "," & ";"
 				$int = array_map( 'trim', explode( ";", $string ) );
+
+				# @TODO Not sure if we should do this, as Commas are separators
+				# that should stay in the string. Needs checking.
 				foreach( $int as $int_string )
 				{
-					strstr( $int_string, "," ) AND $int = array_map( 'trim', explode( ",", $int_string ) );
+					strstr( $int_string, "," )
+						AND $int = array_map( 'trim', explode( ",", $int_string ) );
 				}
 				$nat = array_map( 'trim', explode( ";", $nn ) );
 				foreach( $nat as $nat_string )
 				{
-					strstr( $nat_string, "," ) AND $nat = array_map( 'trim', explode( ",", $nat_string ) );
+					strstr( $nat_string, "," )
+						AND $nat = array_map( 'trim', explode( ",", $nat_string ) );
 				}
+
+				# @TODO Not sure if we should do this, as "languages" stands for "language groupes"
 				// Fixing the cases where the second string has round brackets
-				// This means that it's an ancient language and got a date attached
+				// This means that it's an ancient language and got a date attached.
+				// Hopefully this assumption is true.
 				foreach ( $int as $key => $int_string )
 				{
 					if ( strstr( $int_string, "(" ) )
@@ -138,23 +146,25 @@ class WCMUserLangSelectDevTools extends WCMUserLangSelect
 				$output[ $code ][ $k ] = array_shift( $o );
 			}
 
-		$output = json_encode( $output );
-		$output_raw = $this->beautify_json( $output );
-
+		printf ( '<p>%s</p>', 'Number of languages' );
+		printf(
+			'<input type="text" value="%s" />'
+			,count( $output )
+		);
 		printf ( '<p>%s</p>', 'Readable' );
 		printf(
 			'<textarea rows="5" cols="104">%s</textarea>'
-			,$output_raw
+			,$this->beautify_json( $output )
 		);
 		printf ( '<p>%s</p>', 'Compressed' );
 		printf(
 			 '<textarea rows="5" cols="104">%s</textarea>'
-			,$output
+			,json_encode( $output )
 		);
 
 		return;
 		# Remove the above `return;` to get a DIFF of the changes
-		$this->diff_json( $output_raw );
+		$this->diff_json( $this->beautify_json( $output ) );
 	}
 
 	public function beautify_json( $json )
