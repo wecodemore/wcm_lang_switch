@@ -14,6 +14,15 @@ License:      GNU GPL 3
 
 # PUBLIC API #
 /**
+ * @deprecated
+ * @param $locale
+ */
+function wcm_get_user_locale( $locale = false )
+{
+	_deprecated_function( __FUNCTION__, '1.6.5', 'wcm_get_user_lang' );
+	return wcm_get_user_lang( $locale );
+}
+/**
  * A function returns with returns the user's selected locale, if stored.
  *
  * @since  0.1
