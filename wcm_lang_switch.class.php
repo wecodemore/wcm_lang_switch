@@ -15,7 +15,8 @@ License:      GNU GPL 3
 # PUBLIC API #
 /**
  * @deprecated
- * @param $locale
+ * @param  bool $locale
+ * @return mixed
  */
 function wcm_get_user_locale( $locale = false )
 {
@@ -227,7 +228,7 @@ class WCM_User_Lang_Switch
 	 */
 	public function get_langs()
 	{
-		return apply_filters( 'wcm_get_lang', array_merge(
+		return apply_filters( 'wcm_get_langs', array_merge(
 			 get_available_languages()
 			,array( 'en_US' )
 		) );
