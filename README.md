@@ -4,9 +4,9 @@
 
 **Contributors:** [Stephen Harris](https://github.com/stephenh1988), [Franz Josef Kaiser](https://github.com/franz-josef-kaiser)
 **Tags:** Language, switcher, localisation
-**Tested up to:** 3.5
-**Stable tag:** 1.6
-**Requires at least:** 3.5
+**Tested up to:** 3.5.1
+**Stable tag:** 1.6.5
+**Requires at least:** 3.5.1
 **License:** GPL3
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -39,7 +39,7 @@ If you want to extend the list of available languages, then please use the provi
 
     <?php
     /* Plugin Name:** (WCM) Add additional languages */
-    add_filter( 'uls_get_langs', 'wcm_add_languages' );
+    add_filter( 'wcm_get_langs', 'wcm_add_languages' );
     function wcm_add_languages( $languages )
     {
     	return array_merge( $languages, array(
@@ -56,6 +56,27 @@ If you want to extend the list of available languages, then please use the provi
 <sup>The plugin in action in the admin bar.</sup>
 
 ## Changelog ##
+
+### 1.6.5 ###
+
+* Deprecated <code>wcm_get_user_locale()</code> (replaced with <code>wcm_get_user_lang()</code> and tell users about it.
+* Improved code readability on <code>format_code_lang()</code>
+
+### 1.6.4 ###
+
+* Consistent naming according to GitHub issue #21
+* <strong>Devlopers:</strong> The filter names changed as well as the public API function.
+
+### 1.6.3 ###
+
+* Start earlier on <code>plugins_loaded</code> hook to let other plugins jump in with the default priority.
+
+### 1.6.2 ###
+
+* phpDocBlock fixes
+* fixed references to static values so PhpStorm can handle them
+* Slightly faster checks against NULL
+* fixes <code>E_STRICT</code> error in <code>reset()</code> inside <code>format_lang_code()</code>. Props toscho.
 
 ### 1.6 ###
 
