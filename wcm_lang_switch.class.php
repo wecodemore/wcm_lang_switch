@@ -252,7 +252,6 @@ class WCM_User_Lang_Switch
 	*/
 	public function format_code_lang( $code = '' )
 	{
-
 		$label_code = strtok( strtolower( $code ), "_" );
 		if ( null === self::$lang_codes )
 		{
