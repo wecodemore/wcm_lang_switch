@@ -87,7 +87,7 @@ class WCMUserLangSelect
 	 * Creates a new static instance
 	 * @since  0.2
 	 * @static
-	 * @return void
+	 * @return object|\WCMUserLangSelect $instance
 	 */
 	static public function init()
 	{
