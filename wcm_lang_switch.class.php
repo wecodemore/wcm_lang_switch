@@ -1,5 +1,5 @@
 <?php
-! defined( 'ABSPATH' ) AND exit;
+defined( 'ABSPATH' ) OR exit;
 /*
 Plugin Name:  User Language Switcher
 Plugin URI:   https://github.com/wecodemore/wcm_lang_switch
@@ -7,7 +7,7 @@ Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
 Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
 Contributors: Franz Josef Kaiser
-Version:      1.6.1
+Version:      1.6.2
 License:      GNU GPL 3
 */
 
@@ -91,8 +91,8 @@ class WCMUserLangSelect
 	 */
 	static public function init()
 	{
-		is_null( self :: $instance ) AND self :: $instance = new self;
-		return self :: $instance;
+		null === self::$instance AND self::$instance = new self;
+		return self::$instance;
 	}
 
 
