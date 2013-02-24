@@ -194,10 +194,14 @@ class WCM_User_Lang_Switch
 
 		$locale  = get_locale();
 
-		$wp_admin_bar->add_menu( array(
-			 'id'    => 'user_lang_pick'
-			,'title' => $this->format_code_lang( $locale )
+		$current = $this->format_code_lang( $locale );
+		$wp_admin_bar->add_node( array(
+			 'id'    => 'wcm_user_lang_pick'
+			,'title' => $current
 			,'href'  => '#'
+			,'meta'  => array(
+				'title' => $current
+			 )
 		) );
 
 		foreach ( $this->get_langs() as $lang )
@@ -208,16 +212,28 @@ class WCM_User_Lang_Switch
 				,$lang
 			);
 
-			$locale == $lang AND $name = sprintf(
+			/*$locale == $lang AND $name = sprintf(
 				 '<strong> %s </strong>'
 				,$name
-			);
+			);*/
 
-			$wp_admin_bar->add_menu( array(
-				 'parent' => 'user_lang_pick'
-				,'id'     => "user_lang_pick_lang_{$lang}"
+			// Don't add the current language as menu item
+			if ( $lang === wcm_get_user_lang( 'en_US' ) )
+				continue;
+
+			$wp_admin_bar->add_node( array(
+				 'parent' => 'wcm_user_lang_pick'
+				,'id'     => "wcm_user_lang_pick-{$lang}"
 				,'title'  => $name
 				,'href'   => $link
+				,'meta'   => array(
+					 'title' => sprintf(
+					 	"%s (%s)"
+					    ,$this->format_code_lang( $lang, 'int' )
+					    ,$lang
+					 )
+					,'class' => 'wcm_user_lang_item'
+				 )
 			) );
 		}
 	}
@@ -246,11 +262,12 @@ class WCM_User_Lang_Switch
 	 *
 	 * @since  0.2
 	 * @link   http://codex.wordpress.org/Function_Reference/format_code_lang
-         *
+     *
 	 * @param  string $code Language code, e.g. en_US or en
-	 * @return string The human readable language name, e.g. 'English' or the input on Error.
+	 * @param  string $part Which part to return: International or native name?
+	 * @return string The human readable language name, e.g. 'English', or the input on Error.
 	*/
-	public function format_code_lang( $code = '' )
+	public function format_code_lang( $code = '', $part = 'native' )
 	{
 		$label_code = strtok( strtolower( $code ), "_" );
 		if ( null === self::$lang_codes )
@@ -264,16 +281,10 @@ class WCM_User_Lang_Switch
 
 		$lang_codes = apply_filters( 'wcm_lang_codes', self::$lang_codes, $code );
 
-		// Call the user setting with English as default
-		$user_locale = wcm_get_user_lang( 'en_US' );
-
 		if ( ! isset( $lang_codes[ $label_code ] ) )
 			return $code;
 
-		$lang = $user_locale == $code
-			? 'native'
-			: 'int';
-		return $lang_codes[ $label_code ][ $lang ];
+		return $lang_codes[ $label_code ][ $part ];
 	}
 
 	public function dev_tools()
