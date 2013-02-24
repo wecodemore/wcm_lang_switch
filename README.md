@@ -5,7 +5,7 @@
 **Contributors:** [Stephen Harris](https://github.com/stephenh1988), [Franz Josef Kaiser](https://github.com/franz-josef-kaiser)
 **Tags:** Language, switcher, localisation
 **Tested up to:** 3.5.1
-**Stable tag:** 1.6.6
+**Stable tag:** 1.7
 **Requires at least:** 3.5.1
 **License:** GPL3
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html
@@ -56,6 +56,13 @@ If you want to extend the list of available languages, then please use the provi
 <sup>The plugin in action in the admin bar.</sup>
 
 ## Changelog ##
+
+### 1.7 ###
+
+* Changes to feat. request/enhancement #18: Now shows the native string in the toolbar menu
+* Removes the current language as menu item
+* Adds the international/English language string + ISEO 639-2 code as HTML title attr. to the items.
+* Switched from <code>$wp_admin_bar->add_menu()</code> to the newer API method <code>add_node()</code>.
 
 ### 1.6.6 ###
 
