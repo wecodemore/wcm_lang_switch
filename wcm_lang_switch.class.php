@@ -215,7 +215,7 @@ class WCMUserLangSelect
 	/**
 	 * Get Languages
 	 * @since  0.3
-	 * @return void
+	 * @return array
 	 */
 	public function get_langs()
 	{
