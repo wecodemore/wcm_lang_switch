@@ -6,8 +6,8 @@ Plugin URI:   https://github.com/wecodemore/wcm_lang_switch
 Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
 Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
-Contributors: Franz Josef Kaiser
-Version:      1.6.4
+Contributors: Franz Josef Kaiser, wecodemore
+Version:      1.6.5
 License:      GNU GPL 3
 */
 
@@ -17,23 +17,22 @@ License:      GNU GPL 3
  * A function returns with returns the user's selected locale, if stored.
  *
  * @since  0.1
- *
  * @param  bool $locale
- * @return mixed string/bool $locale
+ * @return mixed string/bool $locale|$locale_new
  */
-function wcm_get_user_locale( $locale = false )
+function wcm_get_user_lang( $locale = false )
 {
-	if ( $new_locale = get_user_meta(
+	if ( $locale_new = get_user_meta(
 		 get_current_user_id()
 		,'user_language'
 		,true
 	) )
-		 return $new_locale;
+		 return $locale_new;
 
     return $locale;
 }
 
-add_action( 'plugins_loaded', array( 'WCMUserLangSelect', 'init' ), 5 );
+add_action( 'plugins_loaded', array( 'WCM_User_Lang_Switch', 'init' ), 5 );
 /**
  * Allows the user to change the systems language.
  * Saves the preference as user meta data.
@@ -46,7 +45,7 @@ add_action( 'plugins_loaded', array( 'WCMUserLangSelect', 'init' ), 5 );
  * @package    WordPress
  * @subpackage User Language Change
  */
-class WCMUserLangSelect
+class WCM_User_Lang_Switch
 {
 	/**
 	 * Instance
@@ -63,7 +62,7 @@ class WCMUserLangSelect
 	 * @static
 	 * @var    string
 	 */
-	static public $name = 'uls_pick_lang';
+	static public $name = 'wcm_user_lang';
 
 	/**
 	 * Array of language names (in English & native language), indexed by language code
@@ -86,7 +85,7 @@ class WCMUserLangSelect
 	 * Creates a new static instance
 	 * @since  0.2
 	 * @static
-	 * @return object|\WCMUserLangSelect $instance
+	 * @return object|\WCM_User_Lang_Switch $instance
 	 */
 	static public function init()
 	{
@@ -116,7 +115,8 @@ class WCMUserLangSelect
 			return $mofile;
 		}
 
-		! defined( 'WPLANG' ) AND define( 'WPLANG', $meta );
+		defined( 'WPLANG' )
+			OR define( 'WPLANG', $meta );
 
 		// Use the global $locale instead of get_locale() to prevent endless loops
 		$mofile = str_replace( $locale, WPLANG, $mofile );
@@ -128,14 +128,14 @@ class WCMUserLangSelect
 	/**
 	 * Hook the functions
 	 * @since  0.1
-	 * @return \WCMUserLangSelect
+	 * @return \WCM_User_Lang_Switch
 	 */
 	public function __construct()
 	{
-		if ( isset( $_REQUEST[ self :: $name ] ) )
+		if ( isset( $_REQUEST[ self::$name ] ) )
 			add_action( 'locale', array( $this, 'update_user' ) );
 
-		add_filter( 'locale', 'wcm_get_user_locale', 20 );
+		add_filter( 'locale', 'wcm_get_user_lang', 20 );
 		add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar') );
 
 		$this->dev AND add_action( 'wp_dashboard_setup', array( $this, 'dev_tools' ), 99 );
@@ -156,10 +156,10 @@ class WCMUserLangSelect
 		update_user_meta(
 			 get_current_user_id()
 			,'user_language'
-			,$_REQUEST[ self :: $name ]
+			,$_REQUEST[ self::$name ]
 		);
 
-		return wcm_get_user_locale( $locale );
+		return wcm_get_user_lang( $locale );
 	}
 
 
@@ -192,7 +192,7 @@ class WCMUserLangSelect
 		{
 			$name = $this->format_code_lang( $lang );
 			$link = add_query_arg(
-				 self :: $name
+				 self::$name
 				,$lang
 			);
 
@@ -218,7 +218,7 @@ class WCMUserLangSelect
 	 */
 	public function get_langs()
 	{
-		return apply_filters( 'uls_get_langs', array_merge(
+		return apply_filters( 'wcm_get_lang', array_merge(
 			 get_available_languages()
 			,array( 'en_US' )
 		) );
@@ -251,8 +251,8 @@ class WCMUserLangSelect
 		if ( 0 !== json_last_error() )
 			return $code;
 
-		$lang_codes = apply_filters( 'lang_codes', self::$lang_codes, $code );
-		$user_locale = wcm_get_user_locale( 'en_US' );
+		$lang_codes = apply_filters( 'wcm_lang_codes', self::$lang_codes, $code );
+		$user_locale = wcm_get_user_lang( 'en_US' );
 
 		if ( ! isset( $lang_codes[ $label_code ] ) )
 			return $code;
