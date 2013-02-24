@@ -7,13 +7,15 @@ Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
 Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
 Contributors: Franz Josef Kaiser, wecodemore
-Version:      1.6.5
+Version:      1.6.6
 License:      GNU GPL 3
 */
 
 
 # PUBLIC API #
 /**
+ * Will be removed with 1.7.0
+ * Use wcm_get_user_lang() instead.
  * @deprecated
  * @param  bool $locale
  * @return mixed
@@ -254,23 +256,25 @@ class WCM_User_Lang_Switch
 		$label_code = strtok( strtolower( $code ), "_" );
 		if ( null === self::$lang_codes )
 		{
-			$file = file( plugin_dir_path( __FILE__ ).'/json/lang_codes.min.json' );
-			self::$lang_codes = json_decode( reset( $file ), true );
+			$iso_639_2 = file( plugin_dir_path( __FILE__ ).'/json/lang_codes.min.json' );
+			self::$lang_codes = json_decode( reset( $iso_639_2 ), true );
 		}
 
 		if ( 0 !== json_last_error() )
 			return $code;
 
 		$lang_codes = apply_filters( 'wcm_lang_codes', self::$lang_codes, $code );
+
+		// Call the user setting with English as default
 		$user_locale = wcm_get_user_lang( 'en_US' );
 
 		if ( ! isset( $lang_codes[ $label_code ] ) )
 			return $code;
 
-		if ( $user_locale == $code )
-			return $lang_codes[ $label_code ][ 'native' ];
-		else
-			return $lang_codes[ $label_code ][ 'int' ];
+		$lang = $user_locale == $code
+			? 'native'
+			: 'int';
+		return $lang_codes[ $label_code ][ $lang ];
 	}
 
 	public function dev_tools()
