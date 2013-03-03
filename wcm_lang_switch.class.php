@@ -276,7 +276,9 @@ class WCM_User_Lang_Switch
 			self::$lang_codes = json_decode( reset( $iso_639_2 ), true );
 		}
 
-		if ( 0 !== json_last_error() )
+		# PHP >= 5.3.0 only...
+		# if ( 0 !== json_last_error() )
+		if ( ! empty( self::$lang_codes['error'] ) )
 			return $code;
 
 		$lang_codes = apply_filters( 'wcm_lang_codes', self::$lang_codes, $code );
