@@ -2,8 +2,8 @@
 Contributors: stephenharris, F J Kaiser
 Tags: Language, switcher, localisation
 Tested up to: 3.5.1
-Stable tag: 1.7
-Requires at least: 3.5.1
+Stable tag: 1.7.1
+Requires at least: 3.5
 License: GPL3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -53,6 +53,9 @@ If you want to extend the list of available languages, then please use the provi
 1. The plugin in action in the admin bar.
 
 == Changelog ==
+
+= 1.7.1 =
+PHP 5.2 work-around for json_last_error()
 
 = 1.7 =
 

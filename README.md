@@ -2,10 +2,10 @@
 
 <img width="150" height="150" src="https://raw.github.com/wecodemore/wcm_lang_switch/master/assets/logo.png" />
 
-**Contributors:** [Stephen Harris](https://github.com/stephenh1988), [Franz Josef Kaiser](https://github.com/franz-josef-kaiser)
+**Contributors:** [Stephen Harris](https://github.com/stephenharris), [Franz Josef Kaiser](https://github.com/franz-josef-kaiser)
 **Tags:** Language, switcher, localisation
 **Tested up to:** 3.5.1
-**Stable tag:** 1.7
+**Stable tag:** 1.7.1
 **Requires at least:** 3.5.1
 **License:** GPL3
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html
@@ -56,6 +56,9 @@ If you want to extend the list of available languages, then please use the provi
 <sup>The plugin in action in the admin bar.</sup>
 
 ## Changelog ##
+
+### 1.7.1 ###
+PHP 5.2 work-around for json_last_error()
 
 ### 1.7 ###
 
