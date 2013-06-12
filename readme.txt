@@ -58,6 +58,9 @@ If you want to extend the list of available languages, then please use the provi
 
 * Removed deprecated <code>wcm_get_user_locale()</code> from public API.
 
+= 1.7.1 =
+PHP 5.2 work-around for json_last_error()
+
 = 1.7 =
 
 * Changes to feat. request/enhancement #18: Now shows the native string in the toolbar menu
