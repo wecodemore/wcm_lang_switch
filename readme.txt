@@ -2,7 +2,7 @@
 Contributors: stephenharris, F J Kaiser
 Tags: Language, switcher, localisation
 Tested up to: 3.5.1
-Stable tag: 1.7
+Stable tag: 1.7.2
 Requires at least: 3.5.1
 License: GPL3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -53,6 +53,10 @@ If you want to extend the list of available languages, then please use the provi
 1. The plugin in action in the admin bar.
 
 == Changelog ==
+
+= 1.7.2 =
+
+* Removed deprecated <code>wcm_get_user_locale()</code> from public API.
 
 = 1.7 =
 

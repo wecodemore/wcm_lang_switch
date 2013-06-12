@@ -7,24 +7,12 @@ Description:  Change the language per user, by the click of a button
 Author:       Stephen Harris
 Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
 Contributors: Franz Josef Kaiser, wecodemore
-Version:      1.7
+Version:      1.7.2
 License:      GNU GPL 3
 */
 
 
 # PUBLIC API #
-/**
- * Will be removed with 1.7.0
- * Use wcm_get_user_lang() instead.
- * @deprecated
- * @param  bool $locale
- * @return mixed
- */
-function wcm_get_user_locale( $locale = false )
-{
-	_deprecated_function( __FUNCTION__, '1.6.5', 'wcm_get_user_lang' );
-	return wcm_get_user_lang( $locale );
-}
 /**
  * A function returns with returns the user's selected locale, if stored.
  *
