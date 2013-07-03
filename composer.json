@@ -1,0 +1,28 @@
+{
+	"name"       : "wcm/wcm-lang-switch",
+	"description": "Adds a button to the admin toolbar. This buttons allows users to seamlessly switch between available languages..",
+	"keywords"   : ["wordpress","l18n","l10n","language","translation"],
+	"type"       : "wordpress-plugin",
+	"homepage"   : "https://github.com/wecodemore/wcm_lang_switch",
+	"license"    : "MIT",
+	"authors"    : [
+		{
+			"name"    : "Franz Josef Kaiser",
+			"email"   : "franzjosef@unserkaiser.com",
+			"homepage": "http://www.unserkaiser.com/"
+		},
+		{
+			"name"    : "Stephen Harris",
+			"email"   : "contact@stephenharris.info",
+			"homepage": "http://www.stephenharris.info/"
+		}
+	],
+	"support"    : {
+		"issues": "https://github.com/wecodemore/wcm_lang_switch/issues",
+		"source": "https://github.com/wecodemore/wcm_lang_switch/"
+	},
+	"require"    : {
+		"php": ">=5.2.7",
+		"composer/installers": "~1.0"
+	}
+}
