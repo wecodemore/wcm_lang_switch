@@ -54,6 +54,10 @@ If you want to extend the list of available languages, then please use the provi
 
 == Changelog ==
 
+= 1.7.3 =
+
+* Added support for composer.
+
 = 1.7.2 =
 
 * Removed deprecated <code>wcm_get_user_locale()</code> from public API.

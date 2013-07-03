@@ -58,12 +58,17 @@ If you want to extend the list of available languages, then please use the provi
 ## Changelog ##
 
 
+### 1.7.3 ###
+
+* Added support for composer.
+
 ### 1.7.2 ###
 
 * Removed deprecated <code>wcm_get_user_locale()</code> from public API.
 
 ### 1.7.1 ###
-PHP 5.2 work-around for json_last_error()
+
+* PHP 5.2 work-around for json_last_error()
 
 ### 1.7 ###
 
