@@ -25,3 +25,6 @@ Desktop.ini
 # PSD/AI
 assets/*
 .assets
+
+#Temporary files
+*~
