@@ -5,7 +5,7 @@
 **Contributors:** [Stephen Harris](https://github.com/stephenharris), [Franz Josef Kaiser](https://github.com/franz-josef-kaiser)
 **Tags:** Language, switcher, localisation
 **Tested up to:** 3.6.1
-**Stable tag:** 1.7.4
+**Stable tag:** 1.7.5
 **Requires at least:** 3.6.1
 **License:** GPL3
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html
@@ -57,6 +57,11 @@ If you want to extend the list of available languages, then please use the provi
 
 ## Changelog ##
 
+
+### 1.7.5 ###
+
+* Removed legacy method.
+* Removed empty lines to shorten file.
 
 ### 1.7.4 ###
 
