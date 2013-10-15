@@ -55,7 +55,6 @@ class WCM_User_Lang_Switch
 	 */
 	static protected $instance;
 
-
 	/**
 	 * A unique name for this plug-in
 	 * @since  0.1
@@ -72,14 +71,12 @@ class WCM_User_Lang_Switch
 	 */
 	static public $lang_codes;
 
-
 	/**
 	 * @internal Enable Dev Tools?
 	 * @since 1.3
 	 * @var   bool
 	 */
 	public $dev = true;
-
 
 	/**
 	 * Creates a new static instance
@@ -92,7 +89,6 @@ class WCM_User_Lang_Switch
 		null === self::$instance AND self::$instance = new self;
 		return self::$instance;
 	}
-
 
 	/**
 	 * Sets the current user and defines the WPLANG constant
@@ -124,7 +120,6 @@ class WCM_User_Lang_Switch
 		return $mofile;
 	}
 
-
 	/**
 	 * Hook the functions
 	 * @since  0.1
@@ -140,7 +135,6 @@ class WCM_User_Lang_Switch
 
 		$this->dev AND add_action( 'wp_dashboard_setup', array( $this, 'dev_tools' ), 99 );
 	}
-
 
 	/**
 	 * Update the user's option just in time!
@@ -161,7 +155,6 @@ class WCM_User_Lang_Switch
 
 		return wcm_get_user_lang( $locale );
 	}
-
 
 	/**
 	 * The 'drop down' for the admin bar
@@ -226,7 +219,6 @@ class WCM_User_Lang_Switch
 		}
 	}
 
-
 	/**
 	 * Get Languages
 	 * @since  0.3
@@ -239,7 +231,6 @@ class WCM_User_Lang_Switch
 			array( 'en_US' )
 		) );
 	}
-
 
 	/**
 	 * Converts language code into 'human readable' form.
