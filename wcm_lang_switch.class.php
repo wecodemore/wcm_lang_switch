@@ -91,36 +91,6 @@ class WCM_User_Lang_Switch
 	}
 
 	/**
-	 * Sets the current user and defines the WPLANG constant
-	 * @since  0.4
-	 * @static
-	 * @param  string $mofile
-	 * @return string $mofile
-	 */
-	static public function set_locale( $mofile )
-	{
-		global $current_user, $locale;
-
-		// No need to constantly fire this one
-		remove_filter( current_filter(), __FUNCTION__ );
-
-		! isset( $current_user ) AND $current_user = wp_get_current_user();
-
-		if ( ! $meta = get_user_meta( $current_user->ID, 'user_language', true ) )
-		{
-			return $mofile;
-		}
-
-		defined( 'WPLANG' )
-			OR define( 'WPLANG', $meta );
-
-		// Use the global $locale instead of get_locale() to prevent endless loops
-		$mofile = str_replace( $locale, WPLANG, $mofile );
-
-		return $mofile;
-	}
-
-	/**
 	 * Hook the functions
 	 * @since  0.1
 	 * @return \WCM_User_Lang_Switch
