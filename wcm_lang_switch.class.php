@@ -23,9 +23,9 @@ License:      GNU GPL 3
 function wcm_get_user_lang( $locale = false )
 {
 	if ( $locale_new = get_user_meta(
-		 get_current_user_id()
-		,'user_language'
-		,true
+		get_current_user_id(),
+		'user_language',
+		true
 	) )
 		 return $locale_new;
 
@@ -154,9 +154,9 @@ class WCM_User_Lang_Switch
 		remove_filter( current_filter(), array( $this, __FUNCTION__ ) );
 
 		update_user_meta(
-			 get_current_user_id()
-			,'user_language'
-			,$_REQUEST[ self::$name ]
+			get_current_user_id(),
+			'user_language',
+			$_REQUEST[ self::$name ]
 		);
 
 		return wcm_get_user_lang( $locale );
@@ -184,20 +184,20 @@ class WCM_User_Lang_Switch
 
 		$current = $this->format_code_lang( $locale );
 		$wp_admin_bar->add_node( array(
-			 'id'    => 'wcm_user_lang_pick'
-			,'title' => $current
-			,'href'  => '#'
-			,'meta'  => array(
-				'title' => $current
-			 )
+			'id'    => 'wcm_user_lang_pick',
+			'title' => $current,
+			'href'  => '#',
+			'meta'  => array(
+				'title' => $current,
+			),
 		) );
 
 		foreach ( $this->get_langs() as $lang )
 		{
 			$name = $this->format_code_lang( $lang );
 			$link = add_query_arg(
-				 self::$name
-				,$lang
+				self::$name,
+				$lang
 			);
 
 			/*$locale == $lang AND $name = sprintf(
@@ -210,18 +210,18 @@ class WCM_User_Lang_Switch
 				continue;
 
 			$wp_admin_bar->add_node( array(
-				 'parent' => 'wcm_user_lang_pick'
-				,'id'     => "wcm_user_lang_pick-{$lang}"
-				,'title'  => $name
-				,'href'   => $link
-				,'meta'   => array(
-					 'title' => sprintf(
-					 	"%s (%s)"
-					    ,$this->format_code_lang( $lang, 'int' )
-					    ,$lang
-					 )
-					,'class' => 'wcm_user_lang_item'
-				 )
+				'parent' => 'wcm_user_lang_pick',
+				'id'     => "wcm_user_lang_pick-{$lang}",
+				'title'  => $name,
+				'href'   => $link,
+				'meta'   => array(
+					'title' => sprintf(
+					 	"%s (%s)",
+					    $this->format_code_lang( $lang, 'int' ),
+					    $lang
+					),
+					'class' => 'wcm_user_lang_item',
+				),
 			) );
 		}
 	}
@@ -235,8 +235,8 @@ class WCM_User_Lang_Switch
 	public function get_langs()
 	{
 		return apply_filters( 'wcm_get_langs', array_merge(
-			 get_available_languages()
-			,array( 'en_US' )
+			get_available_languages(),
+			array( 'en_US' )
 		) );
 	}
 
