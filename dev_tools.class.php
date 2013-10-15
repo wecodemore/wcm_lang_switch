@@ -20,17 +20,17 @@ class WCM_User_Lang_Switch_DevTools extends WCM_User_Lang_Switch
 			return;
 
 		wp_add_dashboard_widget(
-			 $_GET['wcm_dev_tools']
-			,"(WCM) ".str_replace( '_', ' ', $_GET['wcm_dev_tools'] )
-			,array( $this, $_GET['wcm_dev_tools'] )
+			$_GET['wcm_dev_tools'],
+			"(WCM) ".str_replace( '_', ' ', $_GET['wcm_dev_tools'] ),
+			array( $this, $_GET['wcm_dev_tools'] )
 		);
 	}
 
 	public function compress_json()
 	{
 		printf(
-			 '<textarea rows="5" cols="104">%s</textarea>'
-			,json_encode( self :: $lang_codes )
+			'<textarea rows="5" cols="104">%s</textarea>',
+			json_encode( self :: $lang_codes )
 		);
 	}
 
@@ -124,8 +124,8 @@ class WCM_User_Lang_Switch_DevTools extends WCM_User_Lang_Switch
 				sort( $nat );
 				// Assign to output array and Uppercase letters for first chars
 				$output[ $l ] = array(
-					 'int'    => array_map( 'ucwords', $int )
-					,'native' => array_map( 'ucwords', $nat )
+					'int'    => array_map( 'ucwords', $int ),
+					'native' => array_map( 'ucwords', $nat )
 				);
 			}
 		}
@@ -148,18 +148,18 @@ class WCM_User_Lang_Switch_DevTools extends WCM_User_Lang_Switch
 
 		printf ( '<p>%s</p>', 'Number of languages' );
 		printf(
-			'<input type="text" value="%s" />'
-			,count( $output )
+			'<input type="text" value="%s" />',
+			count( $output )
 		);
 		printf ( '<p>%s</p>', 'Readable' );
 		printf(
-			'<textarea rows="5" cols="104">%s</textarea>'
-			,$this->beautify_json( $output )
+			'<textarea rows="5" cols="104">%s</textarea>',
+			$this->beautify_json( $output )
 		);
 		printf ( '<p>%s</p>', 'Compressed' );
 		printf(
-			 '<textarea rows="5" cols="104">%s</textarea>'
-			,json_encode( $output )
+			'<textarea rows="5" cols="104">%s</textarea>',
+			json_encode( $output )
 		);
 
 		return;
@@ -170,9 +170,9 @@ class WCM_User_Lang_Switch_DevTools extends WCM_User_Lang_Switch
 	public function beautify_json( $json )
 	{
 		return str_replace(
-			 array( "{", ":{", "\":\"", "\"int\"", "\"native\"", "},\"", "}" )
-			,array( "{\n\t", ":\n\t{", "\": \"", "\t\"int\"", "\n\t\t\"native\"", "},\n\t\"", "\n\t}" )
-			,$json
+			array( "{", ":{", "\":\"", "\"int\"", "\"native\"", "},\"", "}" ),
+			array( "{\n\t", ":\n\t{", "\": \"", "\t\"int\"", "\n\t\t\"native\"", "},\n\t\"", "\n\t}" ),
+			$json
 		);
 	}
 
@@ -206,12 +206,12 @@ class WCM_User_Lang_Switch_DevTools extends WCM_User_Lang_Switch
 	{
 		$output_current = file_get_contents( plugin_dir_path( __FILE__ ).'/json/lang_codes.json' );
 		print wp_text_diff(
-			 var_export( $output_current, true )
-			,var_export( $output_remote, true )
-			,array(
-				 'title'       => 'Dev: Changes since last JSON file fetch'
-				,'title_left'  => 'Current data'
-				,'title_right' => 'New fetched data'
+			var_export( $output_current, true ),
+			var_export( $output_remote, true ),
+			array(
+				'title'       => 'Dev: Changes since last JSON file fetch',
+				'title_left'  => 'Current data',
+				'title_right' => 'New fetched data',
 			)
 		);
 	}
