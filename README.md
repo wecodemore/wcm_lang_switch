@@ -169,3 +169,7 @@ If you want to extend the list of available languages, then please use the provi
 ### 0.6. ###
 
 * Moved from a GitHub Gist to a GitHub.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/wecodemore/wcm_lang_switch/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
