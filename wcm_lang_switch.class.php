@@ -141,19 +141,26 @@ class WCM_User_Lang_Switch
 	 */
 	public function admin_bar()
 	{
+		/** @var \WP_Admin_Bar $wp_admin_bar */
 		global $wp_admin_bar;
 
 		$locale  = get_locale();
 
 		$current = $this->format_code_lang( $locale );
+		$node_id = 'wcm_user_lang_pick';
 		$wp_admin_bar->add_node( array(
-			'id'    => 'wcm_user_lang_pick',
-			'title' => $current,
+			'id'    => $node_id,
+			'title' => '<span class="ab-icon"></span>'.$current,
 			'href'  => '#',
 			'meta'  => array(
 				'title' => $current,
 			),
 		) );
+		// Admin Bar node (dash)icon: 'dashicon-translation'
+		?><style>#wpadminbar #wp-admin-bar-<?php echo $node_id; ?> .ab-icon:before {
+			content: '\f326';
+			top: 2px;
+		}</style><?php
 
 		foreach ( $this->get_langs() as $lang )
 		{
