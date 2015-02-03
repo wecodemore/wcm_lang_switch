@@ -8,7 +8,7 @@
  * Contributors: Franz Josef Kaiser, wecodemore
  * Version:      1.7.6
  * License:      GNU GPL 3
-*/
+ */
 
 
 # PUBLIC API #
