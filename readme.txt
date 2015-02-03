@@ -1,8 +1,8 @@
 === WCM User Language Switcher ===
 Contributors: stephenharris, F J Kaiser
 Tags: Language, switcher, localisation
-Tested up to: 3.6.1
-Stable tag: 1.7.5
+Tested up to: 4.1
+Stable tag: 1.7.6
 Requires at least: 3.6.1
 License: GPL3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -54,6 +54,12 @@ If you want to extend the list of available languages, then please use the provi
 
 == Changelog ==
 
+
+= 1.7.6 =
+
+* Fixes admin bar menu item on mobile
+* Adds dashicon to admin bar
+* Fixes some styling issues
 
 = 1.7.5 =
 
