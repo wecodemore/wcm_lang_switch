@@ -1,14 +1,13 @@
 <?php
-defined( 'ABSPATH' ) OR exit;
-/*
-Plugin Name:  User Language Switcher
-Plugin URI:   https://github.com/wecodemore/wcm_lang_switch
-Description:  Change the language per user, by the click of a button
-Author:       Stephen Harris
-Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
-Contributors: Franz Josef Kaiser, wecodemore
-Version:      1.7.5
-License:      GNU GPL 3
+/**
+ * Plugin Name:  User Language Switcher
+ * Plugin URI:   https://github.com/wecodemore/wcm_lang_switch
+ * Description:  Change the language per user, by the click of a button
+ * Author:       Stephen Harris
+ * Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
+ * Contributors: Franz Josef Kaiser, wecodemore
+ * Version:      1.7.6
+ * License:      GNU GPL 3
 */
 
 
@@ -150,17 +149,27 @@ class WCM_User_Lang_Switch
 		$node_id = 'wcm_user_lang_pick';
 		$wp_admin_bar->add_node( array(
 			'id'    => $node_id,
-			'title' => '<span class="ab-icon"></span>'.$current,
+			'title' => sprintf(
+				'<span class="ab-icon"></span><span class="ab-label">%s</span>',
+				$current
+			),
 			'href'  => '#',
 			'meta'  => array(
 				'title' => $current,
 			),
 		) );
 		// Admin Bar node (dash)icon: 'dashicon-translation'
-		?><style>#wpadminbar #wp-admin-bar-<?php echo $node_id; ?> .ab-icon:before {
+		?><style>
+		#wpadminbar #wp-admin-bar-<?php echo $node_id; ?> .ab-icon:before {
 			content: '\f326';
 			top: 2px;
-		}</style><?php
+		}
+		@media screen and ( max-width: 782px ) {
+			#wpadminbar #wp-admin-bar-<?php echo $node_id; ?> {
+				display: block;
+			}
+		}
+		</style><?php
 
 		foreach ( $this->get_langs() as $lang )
 		{
