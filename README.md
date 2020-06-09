@@ -5,7 +5,7 @@
 **Contributors:** [Stephen Harris](https://github.com/stephenharris), [Franz Josef Kaiser](https://github.com/franz-josef-kaiser)
 **Tags:** Language, switcher, localisation
 **Tested up to:** 4.1
-**Stable tag:** 1.7.6
+**Stable tag:** 1.8.0
 **Requires at least:** 3.6.1
 **License:** GPL3
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html
@@ -20,7 +20,6 @@ WeCodeMore (WCM) is your label for high quality WordPress code from renowned aut
 
 If you want to get updates, just follow us on…
 
- * [our page on Google+](https://plus.google.com/b/109907580576615571040/109907580576615571040/posts)
  * [our GitHub repository](https://github.com/wecodemore)
 
 ## Installation ##

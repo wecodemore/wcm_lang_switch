@@ -2,7 +2,7 @@
 Contributors: stephenharris, F J Kaiser
 Tags: Language, switcher, localisation
 Tested up to: 4.1
-Stable tag: 1.7.6
+Stable tag: 1.8.0
 Requires at least: 3.6.1
 License: GPL3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -17,7 +17,6 @@ WeCodeMore (WCM) is your label for high quality WordPress code from renowned aut
 
 If you want to get updates, just follow us on…
 
- * [our page on Google+](https://plus.google.com/b/109907580576615571040/109907580576615571040/posts)
  * [our GitHub repository](https://github.com/wecodemore)
 
 == Installation ==
@@ -54,6 +53,13 @@ If you want to extend the list of available languages, then please use the provi
 
 == Changelog ==
 
+= 1.8.0 =
+
+* Fix hook for additional item inside the Admin Bar, #37
+* Update screenshot, #25
+* Test in Multisite, Network activation, #27
+* Set code style in each line for PSR1-2
+* See also on front-end, if Admin Bar is active fir the user, #32
 
 = 1.7.6 =
 
