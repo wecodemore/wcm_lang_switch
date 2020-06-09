@@ -79,7 +79,6 @@ class WCM_User_Lang_Switch
 
     /**
      * Hook the functions
-     * @return \WCM_User_Lang_Switch
      * @since  0.1
      */
     public function __construct()
@@ -91,7 +90,7 @@ class WCM_User_Lang_Switch
         add_filter('locale', 'wcm_get_user_lang', 20);
         add_action('admin_bar_menu', array($this, 'admin_bar'), 999);
 
-        $this->dev and add_action('wp_dashboard_setup', array($this, 'dev_tools'), 99);
+        $this->dev && add_action('wp_dashboard_setup', array($this, 'dev_tools'), 99);
     }
 
     /**
@@ -100,9 +99,9 @@ class WCM_User_Lang_Switch
      * @since  0.2
      * @static
      */
-    static public function init()
+    public static function init()
     {
-        null === self::$instance and self::$instance = new self;
+        null === self::$instance && self::$instance = new self;
 
         return self::$instance;
     }
@@ -138,7 +137,9 @@ class WCM_User_Lang_Switch
      * @since   0.1
      * @uses    get_available_language()
      * @uses    format_code_lang()
-     * @wp-hook wp_before_admin_bar_render
+     * @wp-hook admin_bar_menu
+     *
+     * @param $wp_admin_bar
      *
      * @return void
      */
@@ -177,16 +178,11 @@ class WCM_User_Lang_Switch
         </style><?php
 
         foreach ($this->get_langs() as $lang) {
-            $name = $this->format_code_lang($lang);
+            $lang_name = $this->format_code_lang($lang);
             $link = add_query_arg(
                 self::$name,
                 $lang
             );
-
-            /*$locale == $lang AND $name = sprintf(
-                 '<strong> %s </strong>'
-                ,$name
-            );*/
 
             // Don't add the current language as menu item
             if ($lang === get_locale()) {
@@ -197,7 +193,7 @@ class WCM_User_Lang_Switch
                 array(
                     'parent' => 'wcm_user_lang_pick',
                     'id'     => "wcm_user_lang_pick-{$lang}",
-                    'title'  => $name,
+                    'title'  => $lang_name,
                     'href'   => $link,
                     'meta'   => array(
                         'title' => sprintf(
@@ -235,19 +231,17 @@ class WCM_User_Lang_Switch
             self::$lang_codes = json_decode(reset($iso_639_2), true);
         }
 
-        # PHP >= 5.3.0 only...
-        # if ( 0 !== json_last_error() )
         if ( ! empty(self::$lang_codes['error'])) {
             return $code;
         }
 
-        $lang_codes = apply_filters('wcm_lang_codes', self::$lang_codes, $code);
+        $codes = apply_filters('wcm_lang_codes', self::$lang_codes, $code);
 
-        if ( ! isset($lang_codes[$label_code])) {
+        if ( ! isset($codes[$label_code])) {
             return $code;
         }
 
-        return $lang_codes[$label_code][$part];
+        return $codes[$label_code][$part];
     }
 
     /**
@@ -270,7 +264,7 @@ class WCM_User_Lang_Switch
     {
         if (
             ! is_admin()
-            or ! current_user_can('manage_options')
+            || ! current_user_can('manage_options')
         ) {
             return;
         }
