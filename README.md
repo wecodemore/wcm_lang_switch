@@ -37,25 +37,30 @@ This plugin was originally built as a means of plugin and theme developers to te
 
 If you want to extend the list of available languages, then please use the provided filter. Here's an example (mu)plugin:
 
-    <?php
-    /* Plugin Name:** (WCM) Add additional languages */
-    add_filter( 'wcm_get_langs', 'wcm_add_languages' );
-    function wcm_add_languages( $languages )
-    {
-    	return array_merge( $languages, array(
-    		'de_DE', // German
-    		'es_ES', // Spanish
-    		'ja',    // Japanese
-    	) );
-    }
-
+```php
+<?php
+/* Plugin Name:** (WCM) Add additional languages */
+add_filter( 'wcm_get_langs', 'wcm_add_languages' );
+function wcm_add_languages( $languages )
+{
+	return array_merge( $languages, array(
+		'de_DE', // German
+		'es_ES', // Spanish
+		'ja',    // Japanese
+	) );
+}
+```
 ## Screenshots ##
 
-<img src="https://raw.github.com/wecodemore/wcm_lang_switch/master/screenshot-1.png" alt="The plugin in action in the admin bar." />
-<br />
-<sup>The plugin in action in the admin bar.</sup>
+![The plugin in action in the admin bar.](assets/screenshot-1.png)
 
 ## Changelog ##
+### 1.8.0 ###
+* Fix hook for additional item inside the Admin Bar, #37
+* Update screenshot, #25
+* Test in Multisite, Network activation, #27
+* Set code style in each line for PSR1-2
+* See also on front-end, if Admin Bar is active fir the user, #32
 
 ### 1.7.6 ###
 
