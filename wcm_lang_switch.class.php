@@ -6,7 +6,7 @@
  * Author:       Stephen Harris
  * Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
  * Contributors: Franz Josef Kaiser, wecodemore
- * Version:      1.7.6
+ * Version:      1.8.0
  * License:      GNU GPL 3
  */
 
@@ -100,7 +100,7 @@ class WCM_User_Lang_Switch
 			add_action( 'locale', array( $this, 'update_user' ) );
 
 		add_filter( 'locale', 'wcm_get_user_lang', 20 );
-		add_action( 'wp_before_admin_bar_render', array( $this, 'admin_bar') );
+		add_action( 'admin_bar_menu', array( $this, 'admin_bar'), 999 );
 
 		$this->dev AND add_action( 'wp_dashboard_setup', array( $this, 'dev_tools' ), 99 );
 	}
@@ -138,11 +138,8 @@ class WCM_User_Lang_Switch
 	 *
 	 * @return void
 	 */
-	public function admin_bar()
+	public function admin_bar($wp_admin_bar)
 	{
-		/** @var \WP_Admin_Bar $wp_admin_bar */
-		global $wp_admin_bar;
-
 		$locale  = get_locale();
 
 		$current = $this->format_code_lang( $locale );
