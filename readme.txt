@@ -53,6 +53,9 @@ If you want to extend the list of available languages, then please use the provi
 
 == Changelog ==
 
+= 1.8.1 = 
+* Add github action to deploy plugin
+
 = 1.8.0 =
 
 * Fix hook for additional item inside the Admin Bar, #37
