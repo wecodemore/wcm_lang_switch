@@ -6,7 +6,7 @@
  * Author:       Stephen Harris
  * Author URI:   https://plus.google.com/b/109907580576615571040/109907580576615571040/posts
  * Contributors: Franz Josef Kaiser, wecodemore
- * Version:      1.8.0
+ * Version:      1.8.1
  * License:      GNU GPL 3
  */
 

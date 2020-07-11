@@ -5,7 +5,7 @@
 **Contributors:** [Stephen Harris](https://github.com/stephenharris), [Franz Josef Kaiser](https://github.com/franz-josef-kaiser)
 **Tags:** Language, switcher, localisation
 **Tested up to:** 4.1
-**Stable tag:** 1.8.0
+**Stable tag:** 1.8.1
 **Requires at least:** 3.6.1
 **License:** GPL3
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.html
@@ -54,6 +54,10 @@ function wcm_add_languages( $languages )
 ![The plugin in action in the admin bar.](assets/screenshot-1.png)
 
 ## Changelog ##
+
+### 1.8.1 ###
+* Add github action to deploy plugin
+
 ### 1.8.0 ###
 * Fix hook for additional item inside the Admin Bar, #37
 * Update screenshot, #25
